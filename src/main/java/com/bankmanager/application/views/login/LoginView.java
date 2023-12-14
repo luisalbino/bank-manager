@@ -16,7 +16,7 @@ import java.util.Objects;
 
 @Route("login")
 @AnonymousAllowed
-@PageTitle("Login | Vaadin CRM")
+@PageTitle("Login")
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     private final LoginForm login = new LoginForm();
 

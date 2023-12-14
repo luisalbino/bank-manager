@@ -1,37 +1,66 @@
 package com.bankmanager.application.views;
 
+import com.bankmanager.application.service.user.UserService;
+import com.bankmanager.application.views.bills.BillsToPayView;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
-import com.vaadin.flow.component.html.Footer;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Header;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.sidenav.SideNav;
+import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.theme.lumo.LumoUtility;
+import org.vaadin.lineawesome.LineAwesomeIcon;
 
 /**
  * The main view is a top-level placeholder for other views.
  */
 public class MainLayout extends AppLayout {
 
-    private H2 viewTitle;
+    private H2 title;
+    private final UserService userService;
 
-    public MainLayout() {
+    public MainLayout(UserService userService) {
+        this.userService = userService;
+
         setPrimarySection(Section.DRAWER);
         addDrawerContent();
         addHeaderContent();
     }
 
+    private Component getHeaderLayout() {
+        var layout = new HorizontalLayout();
+        layout.setSizeFull();
+        layout.setMargin(true);
+        
+        title = new H2();
+        title.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
+
+        var buttonLogout = new Button(VaadinIcon.EXIT.create());
+        buttonLogout.addClickListener(event -> getUI().ifPresent(userService::logout));
+
+        layout.add(
+                title,
+                buttonLogout);
+        layout.setAlignItems(FlexComponent.Alignment.CENTER);
+        layout.setJustifyContentMode(FlexComponent.JustifyContentMode.BETWEEN);
+
+        return layout;
+    }
+
     private void addHeaderContent() {
         DrawerToggle toggle = new DrawerToggle();
         toggle.setAriaLabel("Menu toggle");
-
-        viewTitle = new H2();
-        viewTitle.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
-
-        addToNavbar(true, toggle, viewTitle);
+        addToNavbar(true, toggle, getHeaderLayout());
     }
 
     private void addDrawerContent() {
@@ -41,28 +70,22 @@ public class MainLayout extends AppLayout {
 
         Scroller scroller = new Scroller(createNavigation());
 
-        addToDrawer(header, scroller, createFooter());
+        addToDrawer(header, scroller);
     }
 
     private SideNav createNavigation() {
         SideNav nav = new SideNav();
 
-//        nav.addItem(new SideNavItem("Hello World", HelloWorldView.class, LineAwesomeIcon.GLOBE_SOLID.create()));
+        nav.addItem(new SideNavItem("Contas a pagar", BillsToPayView.class, LineAwesomeIcon.DOLLAR_SIGN_SOLID.create()));
 //        nav.addItem(new SideNavItem("About", AboutView.class, LineAwesomeIcon.FILE.create()));
 
         return nav;
     }
 
-    private Footer createFooter() {
-        Footer layout = new Footer();
-
-        return layout;
-    }
-
     @Override
     protected void afterNavigation() {
         super.afterNavigation();
-        viewTitle.setText(getCurrentPageTitle());
+        title.setText(getCurrentPageTitle());
     }
 
     private String getCurrentPageTitle() {
