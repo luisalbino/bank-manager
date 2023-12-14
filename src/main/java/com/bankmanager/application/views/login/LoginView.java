@@ -1,5 +1,6 @@
 package com.bankmanager.application.views.login;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.login.LoginForm;
@@ -11,34 +12,34 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 import javax.script.ScriptException;
+import java.util.Objects;
 
 @Route("login")
 @AnonymousAllowed
 @PageTitle("Login | Vaadin CRM")
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
-
     private final LoginForm login = new LoginForm();
 
-    public LoginView() throws ScriptException {
-        addClassName("login-view");
+    public LoginView() {
+
         setSizeFull();
+        addClassName("login-view");
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
 
         login.setAction("login");
 
         var btnRegister = new Button();
-        btnRegister.setText("Re");
+        btnRegister.setText("Registrar-se");
         btnRegister.addClickListener(click -> {
-           this.getUI().get().navigate("register");
+            getUI().get().navigate("register");
         });
 
-        add(new H1("Vaadin CRM"), login, btnRegister);
+        add(new H1("Bank Manager"), login, btnRegister);
     }
 
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
-        // inform the user about an authentication error
         if(beforeEnterEvent.getLocation()
                 .getQueryParameters()
                 .getParameters()
