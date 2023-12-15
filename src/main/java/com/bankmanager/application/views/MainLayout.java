@@ -1,9 +1,8 @@
 package com.bankmanager.application.views;
 
 import com.bankmanager.application.service.user.UserService;
-import com.bankmanager.application.views.bills.BillsToPayView;
+import com.bankmanager.application.views.expenses.MonthlyExpensesView;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
@@ -14,7 +13,6 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.router.PageTitle;
@@ -76,7 +74,7 @@ public class MainLayout extends AppLayout {
     private SideNav createNavigation() {
         SideNav nav = new SideNav();
 
-        nav.addItem(new SideNavItem("Contas a pagar", BillsToPayView.class, LineAwesomeIcon.DOLLAR_SIGN_SOLID.create()));
+        nav.addItem(new SideNavItem("Contas a pagar", MonthlyExpensesView.class, LineAwesomeIcon.DOLLAR_SIGN_SOLID.create()));
 //        nav.addItem(new SideNavItem("About", AboutView.class, LineAwesomeIcon.FILE.create()));
 
         return nav;
