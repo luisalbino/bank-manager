@@ -2,6 +2,7 @@ package com.bankmanager.application.views.expenses;
 
 import com.bankmanager.application.component.expenses.NewExpenseComponent;
 import com.bankmanager.application.helpers.HTMLHelper;
+import com.bankmanager.application.service.expenses.ExpenseService;
 import com.bankmanager.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
@@ -18,8 +19,8 @@ public class MonthlyExpensesView extends VerticalLayout {
 
     private final NewExpenseComponent newExpenseComponent;
 
-    public MonthlyExpensesView() {
-        newExpenseComponent = new NewExpenseComponent();
+    public MonthlyExpensesView(ExpenseService expenseService) {
+        newExpenseComponent = new NewExpenseComponent(expenseService);
 
         buildUI();
     }

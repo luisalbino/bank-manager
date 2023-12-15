@@ -268,9 +268,9 @@
     "construct-style-sheets-polyfill": "$construct-style-sheets-polyfill",
     "lit": "$lit",
     "@polymer/polymer": "$@polymer/polymer",
-    "@fontsource/inter": "$@fontsource/inter",
     "proj4": "$proj4",
     "@vaadin/vaadin-themable-mixin": "$@vaadin/vaadin-themable-mixin",
-    "date-fns": "$date-fns"
+    "date-fns": "$date-fns",
+    "@fontsource/inter": "$@fontsource/inter"
   }
 }

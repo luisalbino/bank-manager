@@ -11,7 +11,7 @@ import java.util.Collections;
 @Service
 public abstract class AbstractService<E extends AbstractEntity, T extends AbstractRepository<E>> {
 
-    private final T repository;
+    protected final T repository;
 
     protected AbstractService(T repository) {
         this.repository = repository;

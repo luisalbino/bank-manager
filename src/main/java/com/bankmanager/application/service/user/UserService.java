@@ -8,12 +8,16 @@ import com.bankmanager.application.repositories.user.UserRepository;
 import com.bankmanager.application.service.AbstractService;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinServletRequest;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Objects;
 
 @Service
 public class UserService extends AbstractService<UserEntity, UserRepository> {
@@ -56,5 +60,23 @@ public class UserService extends AbstractService<UserEntity, UserRepository> {
         logoutHandler.logout(
                 VaadinServletRequest.getCurrent().getHttpServletRequest(), null,
                 null);
+    }
+
+    public UserEntity getByUsername(String username) {
+        return repository.getByUsername(username);
+    }
+
+    public UserEntity getLoggedUser() {
+        UserEntity result = null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            result = getByUsername(authentication.getName());
+        }
+
+        if (Objects.isNull(result)) {
+            throw new IllegalArgumentException("Usuário não encontrado!");
+        }
+
+        return result;
     }
 }

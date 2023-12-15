@@ -1,12 +1,15 @@
 package com.bankmanager.application.entities.expenses;
 
 import com.bankmanager.application.entities.AbstractEntity;
+import com.bankmanager.application.entities.user.UserEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -19,9 +22,16 @@ public class ExpenseEntity extends AbstractEntity {
     @Column(nullable = false)
     private Double value;
 
-    @Column(nullable = false)
-    private LocalDate expireDate;
+    @ManyToOne(optional = false)
+    private UserEntity user;
 
     @Column(nullable = false)
-    private Boolean isPaid;
+    private Integer expireDay;
+
+    @Column(nullable = false)
+    private Boolean paid;
+
+    public boolean isPaid() {
+        return Objects.nonNull(paid) && paid;
+    }
 }
