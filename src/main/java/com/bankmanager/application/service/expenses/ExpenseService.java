@@ -33,13 +33,18 @@ public class ExpenseService extends AbstractService<ExpenseEntity, ExpenseReposi
     }
 
     public void pay(ExpenseEntity expense, Double value) {
+        var operationDate = LocalDateTime.now();
+
         var cashFlow = new CashFlowEntity();
         cashFlow.setDescription("Despesa");
         cashFlow.setFlow(FlowTypeEnum.OUTFLOW);
-        cashFlow.setOperationDate(LocalDateTime.now());
+        cashFlow.setOperationDate(operationDate);
         cashFlow.setValue(value);
         cashFlow.setExpense(expense);
         cashFlowService.save(cashFlow);
+
+        expense.setLastTimePaid(operationDate);
+        this.save(expense);
     }
 
     @Override
