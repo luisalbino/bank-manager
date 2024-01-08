@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CardExenseModel {
+public class CardExpenseModel {
 
     private String date;
 

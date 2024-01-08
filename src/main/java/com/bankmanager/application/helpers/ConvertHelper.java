@@ -2,24 +2,23 @@ package com.bankmanager.application.helpers;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import oshi.jna.platform.mac.SystemB;
 
 import java.util.Objects;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ConvertHelper {
 
-    public static <T> T get(Object object, T def) {
-        T result = null;
+    public static Double toDouble(Object object) {
+        return (Double) object;
+    }
 
-        if (Objects.nonNull(object)) {
-            result = (T) object;
-        }
+    public static Double toDouble(Object object, Double def) {
+        var result = toDouble(object);
 
-        if (Objects.nonNull(def)) {
+        if (Objects.isNull(result)) {
             result = def;
         }
-        
+
         return result;
     }
 }

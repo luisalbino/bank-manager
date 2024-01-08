@@ -13,5 +13,13 @@ public class BinderHelper {
         binder.getFields().forEach(HasValue::clear);
         binder.refreshFields();
     }
+
+    public static <T> T valueProviderPrimitiveType(T primitiveType) {
+        return primitiveType;
+    }
+
+    public static <T> void setterProviderPrimitiveType(T primitiveType, T newValue) {
+        primitiveType = newValue;
+    }
 }
 
