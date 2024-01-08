@@ -15,7 +15,7 @@ public class CarouselExpenseComponent extends HorizontalLayout {
         refresh();
     }
 
-    private void refresh() {
+    public void refresh() {
         removeAll();
         var expenses = expenseService.getAll();
         for (var expense : expenses) {

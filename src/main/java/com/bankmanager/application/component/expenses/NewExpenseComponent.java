@@ -18,9 +18,12 @@ import java.util.Objects;
 
 public class NewExpenseComponent extends Dialog {
 
+    private final Runnable afterCreating;
     private final Binder<ExpenseEntity> binder = new Binder<>();
 
-    public NewExpenseComponent(ExpenseService expenseService) {
+    public NewExpenseComponent(ExpenseService expenseService, Runnable afterCreating) {
+        this.afterCreating = afterCreating;
+
         setHeaderTitle("Nova despensa");
         getHeader().add(HTMLHelper.getHR());
 
@@ -54,6 +57,7 @@ public class NewExpenseComponent extends Dialog {
             binder.validate();
             if (binder.isValid()) {
                 expenseService.create(binder.getBean());
+                afterCreating.run();
                 close();
             }
         });
