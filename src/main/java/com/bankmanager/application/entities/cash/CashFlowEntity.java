@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
@@ -22,7 +23,7 @@ public class CashFlowEntity extends AbstractEntity {
     private FlowTypeEnum flow;
 
     @Column(nullable = false)
-    private LocalTime operationDate;
+    private LocalDateTime operationDate;
 
     @Column(nullable = false)
     private Double value;

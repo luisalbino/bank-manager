@@ -3,10 +3,7 @@ package com.bankmanager.application.entities.expenses;
 import com.bankmanager.application.entities.AbstractEntity;
 import com.bankmanager.application.entities.cash.CashFlowEntity;
 import com.bankmanager.application.entities.user.UserEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,7 +31,7 @@ public class ExpenseEntity extends AbstractEntity {
 
     private LocalDate lastTimePaid;
 
-    @OneToMany(mappedBy = "expense")
+    @OneToMany(mappedBy = "expense", fetch = FetchType.EAGER)
     private Collection<CashFlowEntity> cashFlows;
 
     public boolean isPaid() {

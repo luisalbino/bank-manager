@@ -2,10 +2,13 @@ package com.bankmanager.application.component.expenses.carousel;
 
 import com.bankmanager.application.entities.expenses.ExpenseEntity;
 import com.bankmanager.application.helpers.HTMLHelper;
+import com.bankmanager.application.models.expenses.carousel.CardExenseModel;
+import com.bankmanager.application.service.expenses.CardExenseService;
 import com.bankmanager.application.service.expenses.ExpenseService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Span;
@@ -18,13 +21,15 @@ public class CardExpenseComponent extends Div {
     private final ExpenseEntity expense;
 
     private final ExpenseService expenseService;
+    private final CardExenseService cardExenseService;
 
-    public CardExpenseComponent(ExpenseEntity expense, ExpenseService expenseService) {
+    public CardExpenseComponent(ExpenseEntity expense, ExpenseService expenseService, CardExenseService cardExenseService) {
         this.expense = expense;
         this.expenseService = expenseService;
+        this.cardExenseService = cardExenseService;
 
-        setWidth("350px");
-        setHeight("350px");
+        setWidth("20vw");
+//        setHeight("35vh");
         getStyle().set("box-shadow", "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px");
         getStyle().set("box-radius", "4px");
         getStyle().set("padding", "5px");
@@ -43,6 +48,7 @@ public class CardExpenseComponent extends Div {
                 new H2(expense.getName()),
                 badge,
                 HTMLHelper.getHR(),
+                getExpenseResume(),
                 HTMLHelper.getHR(),
                 getButtonPaid()
         );
@@ -50,18 +56,30 @@ public class CardExpenseComponent extends Div {
         add(layout);
     }
 
+    private Component getExpenseResume() {
+        var grid = new Grid<CardExenseModel>();
+        grid.addColumn(CardExenseModel::getDate).setHeader("Data");
+        grid.addColumn(CardExenseModel::getValue).setHeader("Valor");
+        grid.setItems(cardExenseService.getModels(expense));
+
+        var layout = new VerticalLayout();
+        layout.setSizeFull();
+        layout.add(grid);
+
+        return layout;
+    }
+
     private Component getButtonPaid() {
         var buttonPaid = new Button("Pagar");
         buttonPaid.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-
+        buttonPaid.getStyle().set("cursor", "pointer");
         buttonPaid.addClickListener(event -> {
             System.out.println("Alguma coisa!");
         });
 
-
         var layout = new HorizontalLayout();
         layout.add(buttonPaid);
-        layout.setSizeFull();
+        layout.setWidth("100%");
         layout.setAlignItems(FlexComponent.Alignment.END);
         layout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
 
