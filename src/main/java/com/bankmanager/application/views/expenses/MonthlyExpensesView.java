@@ -1,6 +1,7 @@
 package com.bankmanager.application.views.expenses;
 
 import com.bankmanager.application.component.expenses.NewExpenseComponent;
+import com.bankmanager.application.component.expenses.carousel.CarouselExpenseComponent;
 import com.bankmanager.application.helpers.HTMLHelper;
 import com.bankmanager.application.service.expenses.ExpenseService;
 import com.bankmanager.application.views.MainLayout;
@@ -18,9 +19,11 @@ import jakarta.annotation.security.PermitAll;
 public class MonthlyExpensesView extends VerticalLayout {
 
     private final NewExpenseComponent newExpenseComponent;
+    private final CarouselExpenseComponent carouselExpenseComponent;
 
     public MonthlyExpensesView(ExpenseService expenseService) {
         newExpenseComponent = new NewExpenseComponent(expenseService);
+        carouselExpenseComponent = new CarouselExpenseComponent(expenseService);
 
         buildUI();
     }
@@ -31,7 +34,8 @@ public class MonthlyExpensesView extends VerticalLayout {
         layout.add(
                 getButtonNewExpense(),
                 HTMLHelper.getHR(),
-                newExpenseComponent
+                newExpenseComponent,
+                carouselExpenseComponent
         );
 
         add(layout);

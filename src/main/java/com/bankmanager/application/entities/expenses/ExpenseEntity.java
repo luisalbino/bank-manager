@@ -1,14 +1,18 @@
 package com.bankmanager.application.entities.expenses;
 
 import com.bankmanager.application.entities.AbstractEntity;
+import com.bankmanager.application.entities.cash.CashFlowEntity;
 import com.bankmanager.application.entities.user.UserEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.swing.*;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.Objects;
 
 @Getter
@@ -28,10 +32,12 @@ public class ExpenseEntity extends AbstractEntity {
     @Column(nullable = false)
     private Integer expireDay;
 
-    @Column(nullable = false)
-    private Boolean paid;
+    private LocalDate lastTimePaid;
+
+    @OneToMany(mappedBy = "expense")
+    private Collection<CashFlowEntity> cashFlows;
 
     public boolean isPaid() {
-        return Objects.nonNull(paid) && paid;
+        return false;
     }
 }

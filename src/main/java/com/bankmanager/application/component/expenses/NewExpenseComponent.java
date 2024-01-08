@@ -1,11 +1,10 @@
 package com.bankmanager.application.component.expenses;
 
 import com.bankmanager.application.entities.expenses.ExpenseEntity;
+import com.bankmanager.application.helpers.BinderHelper;
 import com.bankmanager.application.helpers.HTMLHelper;
 import com.bankmanager.application.service.expenses.ExpenseService;
-import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -64,10 +63,7 @@ public class NewExpenseComponent extends Dialog {
 
     @Override
     public void open() {
-        binder.setBean(new ExpenseEntity());
-        binder.getFields().forEach(HasValue::clear);
-        binder.refreshFields();
-
+        BinderHelper.setAndClearFields(new ExpenseEntity(), binder);
         super.open();
     }
 }
