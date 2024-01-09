@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Comparator;
 
 @Service
 public class ExpenseService extends AbstractService<ExpenseEntity, ExpenseRepository> {
@@ -49,6 +50,6 @@ public class ExpenseService extends AbstractService<ExpenseEntity, ExpenseReposi
 
     @Override
     public Collection<ExpenseEntity> getAll() {
-        return repository.getByUser(userService.getLoggedUser());
+        return repository.getByUser(userService.getLoggedUser()).stream().sorted(Comparator.comparingLong(ExpenseEntity::getId)).toList();
     }
 }

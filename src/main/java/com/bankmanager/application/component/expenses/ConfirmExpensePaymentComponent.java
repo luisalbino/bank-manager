@@ -3,9 +3,12 @@ package com.bankmanager.application.component.expenses;
 import com.bankmanager.application.entities.expenses.ExpenseEntity;
 import com.bankmanager.application.helpers.BinderHelper;
 import com.bankmanager.application.helpers.ConvertHelper;
+import com.bankmanager.application.helpers.NotificationHelper;
 import com.bankmanager.application.service.expenses.ExpenseService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.data.binder.Binder;
 
@@ -32,6 +35,7 @@ public class ConfirmExpensePaymentComponent extends Dialog {
                 expenseService.pay(expense, binder.getBean());
                 afterPay.run();
                 close();
+                NotificationHelper.success("Despesa paga com sucesso!");
             }
         });
         getFooter().add(buttonConfirm);
