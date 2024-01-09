@@ -20,14 +20,12 @@ public class CardExpenseComponent extends Div {
 
     private final ExpenseEntity expense;
 
-    private final ExpenseService expenseService;
     private final CardExpenseService cardExpenseService;
 
     private final ConfirmExpensePaymentComponent confirmExpensePaymentComponent;
 
     public CardExpenseComponent(ExpenseEntity expense, ExpenseService expenseService, CardExpenseService cardExpenseService, Runnable afterPay) {
         this.expense = expense;
-        this.expenseService = expenseService;
         this.cardExpenseService = cardExpenseService;
         this.confirmExpensePaymentComponent = new ConfirmExpensePaymentComponent(expenseService, expense, afterPay);
 
@@ -65,7 +63,7 @@ public class CardExpenseComponent extends Div {
         grid.setItems(cardExpenseService.getModels(expense));
 
         var layout = new VerticalLayout();
-        layout.setSizeFull();
+        layout.setHeight("250px");
         layout.add(grid);
 
         return layout;

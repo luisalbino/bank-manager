@@ -15,12 +15,10 @@ import com.vaadin.flow.data.binder.Binder;
 public class ConfirmExpensePaymentComponent extends Dialog {
 
     private final ExpenseEntity expense;
-    private final ExpenseService expenseService;
     private final Binder<Double> binder = new Binder<>();
 
     public ConfirmExpensePaymentComponent(ExpenseService expenseService, ExpenseEntity expense, Runnable afterPay) {
         this.expense = expense;
-        this.expenseService = expenseService;
 
         var fieldValue = new NumberField("Valor pago");
         binder.forField(fieldValue)
