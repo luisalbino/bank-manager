@@ -15,7 +15,7 @@ public class ConfirmExpensePaymentComponent extends Dialog {
     private final ExpenseService expenseService;
     private final Binder<Double> binder = new Binder<>();
 
-    public ConfirmExpensePaymentComponent(ExpenseService expenseService, ExpenseEntity expense) {
+    public ConfirmExpensePaymentComponent(ExpenseService expenseService, ExpenseEntity expense, Runnable afterPay) {
         this.expense = expense;
         this.expenseService = expenseService;
 
@@ -30,6 +30,8 @@ public class ConfirmExpensePaymentComponent extends Dialog {
         buttonConfirm.addClickListener(event -> {
             if (binder.isValid()) {
                 expenseService.pay(expense, binder.getBean());
+                afterPay.run();
+                close();
             }
         });
         getFooter().add(buttonConfirm);
