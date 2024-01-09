@@ -12,10 +12,10 @@ public class NotificationHelper {
         show(message, NotificationVariant.LUMO_SUCCESS);
     }
 
-    public static void show(String message, NotificationVariant type) {
+    private static void show(String message, NotificationVariant type) {
         Notification notification = Notification.show(message);
         notification.setPosition(Notification.Position.MIDDLE);
         notification.setDuration(2000);
-        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+        notification.addThemeVariants(type);
     }
 }

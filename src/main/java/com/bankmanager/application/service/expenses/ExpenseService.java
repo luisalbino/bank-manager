@@ -37,7 +37,7 @@ public class ExpenseService extends AbstractService<ExpenseEntity, ExpenseReposi
         var operationDate = LocalDateTime.now();
 
         var cashFlow = new CashFlowEntity();
-        cashFlow.setDescription("Despesa");
+        cashFlow.setDescription("Despesa " + expense.getName());
         cashFlow.setFlow(FlowTypeEnum.OUTFLOW);
         cashFlow.setOperationDate(operationDate);
         cashFlow.setValue(value);

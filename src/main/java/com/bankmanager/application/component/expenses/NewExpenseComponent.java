@@ -3,6 +3,7 @@ package com.bankmanager.application.component.expenses;
 import com.bankmanager.application.entities.expenses.ExpenseEntity;
 import com.bankmanager.application.helpers.BinderHelper;
 import com.bankmanager.application.helpers.HTMLHelper;
+import com.bankmanager.application.helpers.NotificationHelper;
 import com.bankmanager.application.service.expenses.ExpenseService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -18,11 +19,9 @@ import java.util.Objects;
 
 public class NewExpenseComponent extends Dialog {
 
-    private final Runnable afterCreating;
     private final Binder<ExpenseEntity> binder = new Binder<>();
 
     public NewExpenseComponent(ExpenseService expenseService, Runnable afterCreating) {
-        this.afterCreating = afterCreating;
 
         setHeaderTitle("Nova despensa");
         getHeader().add(HTMLHelper.getHR());
@@ -32,7 +31,7 @@ public class NewExpenseComponent extends Dialog {
                 .withValidator(StringUtils::isNotBlank, "Informe um nome!")
                 .bind(ExpenseEntity::getName, ExpenseEntity::setName);
 
-        var fieldValue = new NumberField("Valor");
+        var fieldValue = new NumberField("Valor (Sugestão)");
         binder.forField(fieldValue)
                 .withValidator(Objects::nonNull, "Informe um valor a ser pago!")
                 .bind(ExpenseEntity::getValue, ExpenseEntity::setValue);
@@ -58,6 +57,7 @@ public class NewExpenseComponent extends Dialog {
             if (binder.isValid()) {
                 expenseService.create(binder.getBean());
                 afterCreating.run();
+                NotificationHelper.success("Despesa criada com sucesso!");
                 close();
             }
         });
