@@ -29,7 +29,7 @@ public class CardExpenseComponent extends Div {
         this.cardExpenseService = cardExpenseService;
         this.confirmExpensePaymentComponent = new ConfirmExpensePaymentComponent(expenseService, expense, afterPay);
 
-        setWidth("20vw");
+        setWidth("350px");
         getStyle().set("box-shadow", "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px");
         getStyle().set("box-radius", "4px");
         getStyle().set("padding", "5px");

@@ -2,6 +2,8 @@ package com.bankmanager.application.component.expenses.carousel;
 
 import com.bankmanager.application.service.expenses.CardExpenseService;
 import com.bankmanager.application.service.expenses.ExpenseService;
+import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 public class CarouselExpenseComponent extends HorizontalLayout {
@@ -12,13 +14,20 @@ public class CarouselExpenseComponent extends HorizontalLayout {
     public CarouselExpenseComponent(ExpenseService expenseService, CardExpenseService cardExpenseService) {
         this.expenseService = expenseService;
         this.cardExpenseService = cardExpenseService;
+
+        this.getStyle().set("margin", "10px 2px 10px 2px");
+        this.getStyle().set("display", "flex");
+        this.getStyle().set("flex-wrap", "wrap");
+        this.getStyle().set("justify-content", "space-between");
+        setSizeFull();
+
         refresh();
     }
 
     public void refresh() {
-        removeAll();
+        this.removeAll();
         for (var expense : expenseService.getAll()) {
-            add(new CardExpenseComponent(expense, expenseService, cardExpenseService, this::refresh));
+            this.add(new CardExpenseComponent(expense, expenseService, cardExpenseService, this::refresh));
         }
     }
 }
