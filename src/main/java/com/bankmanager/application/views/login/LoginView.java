@@ -28,6 +28,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         setJustifyContentMode(JustifyContentMode.CENTER);
 
         login.setAction("login");
+        login.setForgotPasswordButtonVisible(false);
 
         var btnRegister = new Button();
         btnRegister.setText("Registrar-se");

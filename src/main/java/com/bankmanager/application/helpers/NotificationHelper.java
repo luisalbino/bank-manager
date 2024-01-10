@@ -12,6 +12,10 @@ public class NotificationHelper {
         show(message, NotificationVariant.LUMO_SUCCESS);
     }
 
+    public static void error(String message) {
+        show(message, NotificationVariant.LUMO_ERROR);
+    }
+
     private static void show(String message, NotificationVariant type) {
         Notification notification = Notification.show(message);
         notification.setPosition(Notification.Position.MIDDLE);

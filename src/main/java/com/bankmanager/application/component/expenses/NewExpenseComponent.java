@@ -23,8 +23,7 @@ public class NewExpenseComponent extends Dialog {
 
     public NewExpenseComponent(ExpenseService expenseService, Runnable afterCreating) {
 
-        setHeaderTitle("Nova despensa");
-        getHeader().add(HTMLHelper.getHR());
+        setHeaderTitle("Nova despesa");
 
         var fieldName = new TextField("Nome");
         binder.forField(fieldName)

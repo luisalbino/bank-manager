@@ -1,6 +1,7 @@
 package com.bankmanager.application.views.user;
 
 import com.bankmanager.application.entities.user.UserEntity;
+import com.bankmanager.application.helpers.NotificationHelper;
 import com.bankmanager.application.service.user.UserService;
 import com.bankmanager.application.views.AbstractView;
 import com.vaadin.flow.component.button.Button;
@@ -52,7 +53,15 @@ public class UserRegistrationView extends AbstractView {
                 .bind(UserEntity::getPassword, UserEntity::setPassword);
 
         var register = new Button("Cadastrar-se");
-        register.addClickListener(event -> this.userService.createUser(binder.getBean(), this.inMemoryUserDetailsManager));
+        register.addClickListener(event -> {
+            try {
+                this.userService.createUser(binder.getBean(), this.inMemoryUserDetailsManager);
+                NotificationHelper.success("Cadastro realizado com sucesso!");
+                getUI().get().navigate("login");
+            } catch (Exception ex) {
+                NotificationHelper.error(ex.getMessage());
+            }
+        });
 
         add(fieldName, fieldUsername, fieldPassword, register);
     }
