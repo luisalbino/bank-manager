@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Objects;
 
 @Service
 public class ExpenseService extends AbstractService<ExpenseEntity, ExpenseRepository> {
@@ -35,6 +36,10 @@ public class ExpenseService extends AbstractService<ExpenseEntity, ExpenseReposi
 
     public void pay(ExpenseEntity expense, Double value) {
         var operationDate = LocalDateTime.now();
+
+        if (Objects.isNull(value) || value <= 0) {
+            throw new IllegalArgumentException("Valor precisa ser informado!");
+        }
 
         var cashFlow = new CashFlowEntity();
         cashFlow.setDescription("Despesa " + expense.getName());

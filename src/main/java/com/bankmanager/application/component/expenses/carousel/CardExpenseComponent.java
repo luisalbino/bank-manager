@@ -71,7 +71,7 @@ public class CardExpenseComponent extends Div {
 
     private Component getButtonPaid() {
         var buttonPaid = new Button("Pagar");
-        buttonPaid.setEnabled(!expense.isPaid());
+//        buttonPaid.setEnabled(!expense.isPaid());
         buttonPaid.getStyle().set("cursor", "pointer");
         buttonPaid.addClickListener(event -> confirmExpensePaymentComponent.open());
 
