@@ -1,5 +1,6 @@
 package com.bankmanager.application.components.expenses.carousel;
 
+import com.bankmanager.application.components.CustomButton;
 import com.bankmanager.application.components.expenses.ConfirmExpensePaymentComponent;
 import com.bankmanager.application.entities.expenses.ExpenseEntity;
 import com.bankmanager.application.helpers.HTMLHelper;
@@ -70,9 +71,8 @@ public class CardExpenseComponent extends Div {
     }
 
     private Component getButtonPaid() {
-        var buttonPaid = new Button("Pagar");
+        var buttonPaid = new CustomButton("Pagar");
         buttonPaid.setEnabled(!expense.isPaid());
-        buttonPaid.getStyle().set("cursor", "pointer");
         buttonPaid.addClickListener(event -> confirmExpensePaymentComponent.open());
 
         var layout = new HorizontalLayout();

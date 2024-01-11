@@ -1,5 +1,6 @@
 package com.bankmanager.application.components.expenses;
 
+import com.bankmanager.application.components.CustomButton;
 import com.bankmanager.application.entities.expenses.ExpenseEntity;
 import com.bankmanager.application.helpers.BinderHelper;
 import com.bankmanager.application.helpers.ConvertHelper;
@@ -28,7 +29,7 @@ public class ConfirmExpensePaymentComponent extends Dialog {
 
         add(fieldValue);
 
-        var buttonConfirm = new Button("Confirmar!");
+        var buttonConfirm = new CustomButton("Confirmar!");
         buttonConfirm.addClickListener(event -> {
             if (binder.isValid()) {
                 expenseService.pay(expense, binder.getBean().getValue());

@@ -1,5 +1,6 @@
 package com.bankmanager.application.views.login;
 
+import com.bankmanager.application.components.CustomButton;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
@@ -30,8 +31,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         login.setAction("login");
         login.setForgotPasswordButtonVisible(false);
 
-        var btnRegister = new Button();
-        btnRegister.setText("Registrar-se");
+        var btnRegister = new CustomButton("Registrar-se");
         btnRegister.addClickListener(click -> {
             getUI().get().navigate("register");
         });

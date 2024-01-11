@@ -1,5 +1,6 @@
 package com.bankmanager.application.views.expenses;
 
+import com.bankmanager.application.components.CustomButton;
 import com.bankmanager.application.components.expenses.NewExpenseComponent;
 import com.bankmanager.application.components.expenses.carousel.CarouselExpenseComponent;
 import com.bankmanager.application.helpers.HTMLHelper;
@@ -42,7 +43,7 @@ public class MonthlyExpensesView extends VerticalLayout {
     }
 
     private Component getButtonNewExpense() {
-        var result = new Button("Nova despesa");
+        var result = new CustomButton("Nova despesa");
         result.setIcon(VaadinIcon.PLUS.create());
         result.addClickListener(event -> newExpenseComponent.open());
 

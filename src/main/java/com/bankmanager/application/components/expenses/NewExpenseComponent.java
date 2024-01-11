@@ -1,5 +1,6 @@
 package com.bankmanager.application.components.expenses;
 
+import com.bankmanager.application.components.CustomButton;
 import com.bankmanager.application.entities.expenses.ExpenseEntity;
 import com.bankmanager.application.helpers.BinderHelper;
 import com.bankmanager.application.helpers.HTMLHelper;
@@ -47,10 +48,10 @@ public class NewExpenseComponent extends Dialog {
 
         add(layout);
 
-        var buttonCancel = new Button("Cancelar");
+        var buttonCancel = new CustomButton("Cancelar");
         buttonCancel.addClickListener(event -> close());
 
-        var buttonSave = new Button("Salvar");
+        var buttonSave = new CustomButton("Salvar");
         buttonSave.addClickListener(event -> {
             binder.validate();
             if (binder.isValid()) {

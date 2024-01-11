@@ -1,5 +1,6 @@
 package com.bankmanager.application.views;
 
+import com.bankmanager.application.components.CustomButton;
 import com.bankmanager.application.service.user.UserService;
 import com.bankmanager.application.views.expenses.MonthlyExpensesView;
 import com.vaadin.flow.component.Component;
@@ -43,7 +44,7 @@ public class MainLayout extends AppLayout {
         title = new H2();
         title.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
 
-        var buttonLogout = new Button(VaadinIcon.EXIT.create());
+        var buttonLogout = new CustomButton(VaadinIcon.EXIT.create());
         buttonLogout.addClickListener(event -> getUI().ifPresent(userService::logout));
 
         layout.add(

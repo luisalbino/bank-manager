@@ -1,5 +1,6 @@
 package com.bankmanager.application.views.user;
 
+import com.bankmanager.application.components.CustomButton;
 import com.bankmanager.application.entities.user.UserEntity;
 import com.bankmanager.application.helpers.NotificationHelper;
 import com.bankmanager.application.service.user.UserService;
@@ -52,7 +53,7 @@ public class UserRegistrationView extends AbstractView {
                 .withValidator(Objects::nonNull, "Password precisa ser informado!")
                 .bind(UserEntity::getPassword, UserEntity::setPassword);
 
-        var register = new Button("Cadastrar-se");
+        var register = new CustomButton("Cadastrar-se");
         register.addClickListener(event -> {
             try {
                 this.userService.createUser(binder.getBean(), this.inMemoryUserDetailsManager);
