@@ -32,12 +32,12 @@ public class NewExpenseComponent extends Dialog {
 
         var fieldValue = new NumberField("Valor (Sugestão)");
         binder.forField(fieldValue)
-                .withValidator(Objects::nonNull, "Informe um valor a ser pago!")
+                .withValidator(Objects::nonNull, "Informe uma sugestão de valor a ser pago!")
                 .bind(ExpenseEntity::getValue, ExpenseEntity::setValue);
 
-        var fieldExpireDate = new IntegerField("Dia de expiração");
+        var fieldExpireDate = new IntegerField("Dia de vencimento");
         binder.forField(fieldExpireDate)
-                .withValidator(Objects::nonNull, "Informe o dia da expiração!")
+                .withValidator(Objects::nonNull, "Informe o dia do vencimento!")
                 .bind(ExpenseEntity::getExpireDay, ExpenseEntity::setExpireDay);
 
         var layout = new VerticalLayout();
