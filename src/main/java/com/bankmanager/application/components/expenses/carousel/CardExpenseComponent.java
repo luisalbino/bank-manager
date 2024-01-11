@@ -59,8 +59,12 @@ public class CardExpenseComponent extends Div {
     private Component getExpenseResume() {
         var grid = new Grid<CardExpenseModel>();
         grid.addColumn(CardExpenseModel::getDate).setHeader("Data");
-        grid.addColumn(CardExpenseModel::getValue).setHeader("Valor");
-        grid.setItems(cardExpenseService.getModels(expense));
+        grid.addColumn(CardExpenseModel::getValueDisplay).setHeader("Valor").setKey("value");
+
+        var cardsExpenses = cardExpenseService.getModels(expense);
+        grid.setItems(cardsExpenses);
+        grid.getColumnByKey("value")
+                .setFooter(cardExpenseService.getFooterValue(cardsExpenses));
 
         var layout = new VerticalLayout();
         layout.setHeight("250px");

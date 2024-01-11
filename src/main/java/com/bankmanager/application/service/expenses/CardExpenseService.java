@@ -2,6 +2,7 @@ package com.bankmanager.application.service.expenses;
 
 import com.bankmanager.application.entities.expenses.ExpenseEntity;
 import com.bankmanager.application.helpers.ConvertHelper;
+import com.bankmanager.application.helpers.CurrencyHelper;
 import com.bankmanager.application.helpers.LocalDateTimeHelper;
 import com.bankmanager.application.models.expenses.carousel.CardExpenseModel;
 import org.apache.commons.collections4.CollectionUtils;
@@ -22,6 +23,7 @@ public class CardExpenseService {
         if (CollectionUtils.isNotEmpty(expense.getCashFlows())) {
             for (var cashFlow : expense.getCashFlows())  {
                 var cardExense = new CardExpenseModel();
+                cardExense.setValueDisplay(CurrencyHelper.convert(cashFlow.getValue()));
                 cardExense.setValue(ConvertHelper.toDouble(cashFlow.getValue(), 0D));
                 cardExense.setDate(LocalDateTimeHelper.getDateStr(cashFlow.getOperationDate()));
                 result.add(cardExense);
@@ -29,5 +31,10 @@ public class CardExpenseService {
         }
 
         return result;
+    }
+
+    public String getFooterValue(Collection<CardExpenseModel> cardsExpenses) {
+        var totalValue = ConvertHelper.toDouble(cardsExpenses.stream().mapToDouble(CardExpenseModel::getValue).sum(), 0D);
+        return CurrencyHelper.convert(totalValue);
     }
 }

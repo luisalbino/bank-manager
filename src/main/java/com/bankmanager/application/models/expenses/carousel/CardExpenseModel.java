@@ -10,4 +10,6 @@ public class CardExpenseModel {
     private String date;
 
     private Double value;
+
+    private String valueDisplay;
 }

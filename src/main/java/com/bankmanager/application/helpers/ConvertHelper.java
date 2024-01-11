@@ -21,4 +21,18 @@ public class ConvertHelper {
 
         return result;
     }
+
+    public static String toString(Object object) {
+        return object.toString();
+    }
+
+    public static String toString(Object object, String def) {
+        var result = toString(object);
+
+        if (Objects.isNull(result)) {
+            result = def;
+        }
+
+        return result;
+    }
 }
