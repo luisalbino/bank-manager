@@ -1,7 +1,7 @@
 package com.bankmanager.application.views.expenses;
 
-import com.bankmanager.application.component.expenses.NewExpenseComponent;
-import com.bankmanager.application.component.expenses.carousel.CarouselExpenseComponent;
+import com.bankmanager.application.components.expenses.NewExpenseComponent;
+import com.bankmanager.application.components.expenses.carousel.CarouselExpenseComponent;
 import com.bankmanager.application.helpers.HTMLHelper;
 import com.bankmanager.application.service.expenses.CardExpenseService;
 import com.bankmanager.application.service.expenses.ExpenseService;

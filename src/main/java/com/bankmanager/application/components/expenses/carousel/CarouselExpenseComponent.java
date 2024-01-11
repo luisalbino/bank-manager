@@ -1,9 +1,7 @@
-package com.bankmanager.application.component.expenses.carousel;
+package com.bankmanager.application.components.expenses.carousel;
 
 import com.bankmanager.application.service.expenses.CardExpenseService;
 import com.bankmanager.application.service.expenses.ExpenseService;
-import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 public class CarouselExpenseComponent extends HorizontalLayout {

@@ -1,4 +1,4 @@
-package com.bankmanager.application.component.expenses;
+package com.bankmanager.application.components.expenses;
 
 import com.bankmanager.application.entities.expenses.ExpenseEntity;
 import com.bankmanager.application.helpers.BinderHelper;

@@ -1,6 +1,6 @@
-package com.bankmanager.application.component.expenses.carousel;
+package com.bankmanager.application.components.expenses.carousel;
 
-import com.bankmanager.application.component.expenses.ConfirmExpensePaymentComponent;
+import com.bankmanager.application.components.expenses.ConfirmExpensePaymentComponent;
 import com.bankmanager.application.entities.expenses.ExpenseEntity;
 import com.bankmanager.application.helpers.HTMLHelper;
 import com.bankmanager.application.models.expenses.carousel.CardExpenseModel;
