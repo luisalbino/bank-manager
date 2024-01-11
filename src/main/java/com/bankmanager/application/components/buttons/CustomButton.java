@@ -1,4 +1,4 @@
-package com.bankmanager.application.components;
+package com.bankmanager.application.components.buttons;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.icon.Icon;
@@ -16,7 +16,7 @@ public class CustomButton extends Button {
     public CustomButton(String text, Icon icon) {
         this.setText(text);
         this.setIcon(icon);
-        
+
         getStyle().set("cursor", "pointer");
     }
 }

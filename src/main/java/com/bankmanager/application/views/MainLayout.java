@@ -1,12 +1,11 @@
 package com.bankmanager.application.views;
 
-import com.bankmanager.application.components.CustomButton;
+import com.bankmanager.application.components.buttons.CustomButton;
 import com.bankmanager.application.service.user.UserService;
 import com.bankmanager.application.views.expenses.MonthlyExpensesView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Header;

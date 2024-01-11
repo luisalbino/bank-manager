@@ -1,12 +1,11 @@
 package com.bankmanager.application.components.expenses;
 
-import com.bankmanager.application.components.CustomButton;
+import com.bankmanager.application.components.buttons.CustomButton;
 import com.bankmanager.application.entities.expenses.ExpenseEntity;
 import com.bankmanager.application.helpers.BinderHelper;
-import com.bankmanager.application.helpers.HTMLHelper;
 import com.bankmanager.application.helpers.NotificationHelper;
 import com.bankmanager.application.service.expenses.ExpenseService;
-import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -49,6 +48,7 @@ public class NewExpenseComponent extends Dialog {
         add(layout);
 
         var buttonCancel = new CustomButton("Cancelar");
+        buttonCancel.addThemeVariants(ButtonVariant.LUMO_ERROR);
         buttonCancel.addClickListener(event -> close());
 
         var buttonSave = new CustomButton("Salvar");
