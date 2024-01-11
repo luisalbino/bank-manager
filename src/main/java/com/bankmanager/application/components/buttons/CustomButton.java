@@ -1,6 +1,7 @@
 package com.bankmanager.application.components.buttons;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.icon.Icon;
 
 public class CustomButton extends Button {
@@ -17,6 +18,10 @@ public class CustomButton extends Button {
         this.setText(text);
         this.setIcon(icon);
 
-        getStyle().set("cursor", "pointer");
+        this.getStyle().set("cursor", "pointer");
+    }
+
+    public void setButtonError() {
+        this.addThemeVariants(ButtonVariant.LUMO_ERROR);
     }
 }

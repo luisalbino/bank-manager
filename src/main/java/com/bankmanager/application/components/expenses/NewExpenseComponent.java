@@ -48,7 +48,7 @@ public class NewExpenseComponent extends Dialog {
         add(layout);
 
         var buttonCancel = new CustomButton("Cancelar");
-        buttonCancel.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        buttonCancel.setButtonError();
         buttonCancel.addClickListener(event -> close());
 
         var buttonSave = new CustomButton("Salvar");
