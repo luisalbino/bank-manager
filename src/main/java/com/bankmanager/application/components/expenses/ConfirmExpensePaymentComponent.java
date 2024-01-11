@@ -20,7 +20,7 @@ public class ConfirmExpensePaymentComponent extends CustomDialog {
     private final Binder<ValueModel> binder = new Binder<>();
 
     public ConfirmExpensePaymentComponent(ExpenseService expenseService, ExpenseEntity expense, Runnable afterPay) {
-        super("Pagar despesa");
+        super("Pagar despesa", "Pagar");
 
         this.expense = expense;
 
@@ -31,8 +31,7 @@ public class ConfirmExpensePaymentComponent extends CustomDialog {
 
         add(fieldValue);
 
-        var buttonConfirm = new CustomButton("Confirmar!");
-        buttonConfirm.addClickListener(event -> {
+        addConfirmAction(() -> {
             if (binder.isValid()) {
                 expenseService.pay(expense, binder.getBean().getValue());
                 afterPay.run();
@@ -40,7 +39,6 @@ public class ConfirmExpensePaymentComponent extends CustomDialog {
                 NotificationHelper.success("Despesa paga com sucesso!");
             }
         });
-        getFooter().add(buttonConfirm);
     }
 
     @Override

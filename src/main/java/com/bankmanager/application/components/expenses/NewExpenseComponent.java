@@ -25,6 +25,16 @@ public class NewExpenseComponent extends CustomDialog {
     public NewExpenseComponent(ExpenseService expenseService, Runnable afterCreating) {
         super("Nova despesa");
 
+        addConfirmAction(() -> {
+            binder.validate();
+            if (binder.isValid()) {
+                expenseService.create(binder.getBean());
+                afterCreating.run();
+                NotificationHelper.success("Despesa criada com sucesso!");
+                close();
+            }
+        });
+
         var fieldName = new TextField("Nome");
         binder.forField(fieldName)
                 .withValidator(StringUtils::isNotBlank, "Informe um nome!")
@@ -46,23 +56,6 @@ public class NewExpenseComponent extends CustomDialog {
         layout.add(fieldName, fieldValue, fieldExpireDate);
 
         add(layout);
-
-        var buttonCancel = new CustomButton("Cancelar");
-        buttonCancel.setButtonError();
-        buttonCancel.addClickListener(event -> close());
-
-        var buttonSave = new CustomButton("Salvar");
-        buttonSave.addClickListener(event -> {
-            binder.validate();
-            if (binder.isValid()) {
-                expenseService.create(binder.getBean());
-                afterCreating.run();
-                NotificationHelper.success("Despesa criada com sucesso!");
-                close();
-            }
-        });
-
-        getFooter().add(buttonCancel, buttonSave);
     }
 
     @Override

@@ -13,9 +13,11 @@ public class ConvertHelper {
     }
 
     public static Double toDouble(Object object, Double def) {
-        var result = toDouble(object);
+        Double result = null;
 
-        if (Objects.isNull(result)) {
+        try {
+            result = toDouble(object);
+        } catch (Exception ex) {
             result = def;
         }
 
@@ -27,9 +29,11 @@ public class ConvertHelper {
     }
 
     public static String toString(Object object, String def) {
-        var result = toString(object);
+        String result = null;
 
-        if (Objects.isNull(result)) {
+        try {
+            result = toString(object);
+        } catch (Exception ex) {
             result = def;
         }
 
