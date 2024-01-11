@@ -1,6 +1,7 @@
 package com.bankmanager.application.components.expenses;
 
 import com.bankmanager.application.components.buttons.CustomButton;
+import com.bankmanager.application.components.dialogs.CustomDialog;
 import com.bankmanager.application.entities.expenses.ExpenseEntity;
 import com.bankmanager.application.helpers.BinderHelper;
 import com.bankmanager.application.helpers.ConvertHelper;
@@ -13,12 +14,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-public class ConfirmExpensePaymentComponent extends Dialog {
+public class ConfirmExpensePaymentComponent extends CustomDialog {
 
     private final ExpenseEntity expense;
     private final Binder<ValueModel> binder = new Binder<>();
 
     public ConfirmExpensePaymentComponent(ExpenseService expenseService, ExpenseEntity expense, Runnable afterPay) {
+        super("Pagar despesa");
+
         this.expense = expense;
 
         var fieldValue = new NumberField("Valor pago");

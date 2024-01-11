@@ -1,6 +1,7 @@
 package com.bankmanager.application.components.expenses;
 
 import com.bankmanager.application.components.buttons.CustomButton;
+import com.bankmanager.application.components.dialogs.CustomDialog;
 import com.bankmanager.application.entities.expenses.ExpenseEntity;
 import com.bankmanager.application.helpers.BinderHelper;
 import com.bankmanager.application.helpers.NotificationHelper;
@@ -17,13 +18,12 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 
-public class NewExpenseComponent extends Dialog {
+public class NewExpenseComponent extends CustomDialog {
 
     private final Binder<ExpenseEntity> binder = new Binder<>();
 
     public NewExpenseComponent(ExpenseService expenseService, Runnable afterCreating) {
-
-        setHeaderTitle("Nova despesa");
+        super("Nova despesa");
 
         var fieldName = new TextField("Nome");
         binder.forField(fieldName)
