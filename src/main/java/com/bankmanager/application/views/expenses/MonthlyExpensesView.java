@@ -15,7 +15,7 @@ import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.PermitAll;
 
 @PermitAll
-@PageTitle("Contas a pagar")
+@PageTitle("Despesas mensais")
 @Route(value = "", layout = MainLayout.class)
 public class MonthlyExpensesView extends VerticalLayout {
 
