@@ -12,6 +12,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.ManyToOne;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Comparator;
@@ -34,22 +35,21 @@ public class ExpenseService extends AbstractService<ExpenseEntity, ExpenseReposi
         save(expense);
     }
 
-    public void pay(ExpenseEntity expense, Double value) {
-        var operationDate = LocalDateTime.now();
-
-        if (Objects.isNull(value) || value <= 0) {
-            throw new IllegalArgumentException("Valor precisa ser informado!");
-        }
+    public void pay(ExpenseEntity expense, LocalDate time, Double value) {
+        var paidTime = time.atStartOfDay();
 
         var cashFlow = new CashFlowEntity();
         cashFlow.setDescription("Despesa " + expense.getName());
         cashFlow.setFlow(FlowTypeEnum.OUTFLOW);
-        cashFlow.setOperationDate(operationDate);
+        cashFlow.setOperationDate(paidTime);
         cashFlow.setValue(value);
         cashFlow.setExpense(expense);
         cashFlowService.save(cashFlow);
 
-        expense.setLastTimePaid(operationDate);
+        if (paidTime.getMonth().equals(LocalDateTime.now().getMonth())) {
+            expense.setLastTimePaid(paidTime);
+        }
+
         this.save(expense);
     }
 

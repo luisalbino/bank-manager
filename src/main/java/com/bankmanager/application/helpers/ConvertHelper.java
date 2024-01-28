@@ -13,12 +13,10 @@ public class ConvertHelper {
     }
 
     public static Double toDouble(Object object, Double def) {
-        Double result = null;
+        Double result = def;
 
-        try {
+        if (Objects.nonNull(object)) {
             result = toDouble(object);
-        } catch (Exception ex) {
-            result = def;
         }
 
         return result;
@@ -29,12 +27,10 @@ public class ConvertHelper {
     }
 
     public static String toString(Object object, String def) {
-        String result = null;
+        String result = def;
 
-        try {
+        if (Objects.nonNull(object)) {
             result = toString(object);
-        } catch (Exception ex) {
-            result = def;
         }
 
         return result;
