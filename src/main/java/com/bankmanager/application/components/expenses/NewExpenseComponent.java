@@ -1,13 +1,10 @@
 package com.bankmanager.application.components.expenses;
 
-import com.bankmanager.application.components.buttons.CustomButton;
 import com.bankmanager.application.components.dialogs.CustomDialog;
 import com.bankmanager.application.entities.expenses.ExpenseEntity;
 import com.bankmanager.application.helpers.BinderHelper;
 import com.bankmanager.application.helpers.NotificationHelper;
-import com.bankmanager.application.service.expenses.ExpenseService;
-import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.dialog.Dialog;
+import com.bankmanager.application.services.expenses.ExpenseService;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.IntegerField;

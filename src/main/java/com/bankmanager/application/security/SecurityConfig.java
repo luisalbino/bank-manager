@@ -1,6 +1,6 @@
 package com.bankmanager.application.security;
 
-import com.bankmanager.application.service.user.UserService;
+import com.bankmanager.application.services.user.UserService;
 import com.bankmanager.application.views.login.LoginView;
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
 import org.springframework.context.annotation.Bean;

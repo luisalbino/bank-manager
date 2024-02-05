@@ -3,7 +3,7 @@ package com.bankmanager.application.views.user;
 import com.bankmanager.application.components.buttons.CustomButton;
 import com.bankmanager.application.entities.user.UserEntity;
 import com.bankmanager.application.helpers.NotificationHelper;
-import com.bankmanager.application.service.user.UserService;
+import com.bankmanager.application.services.user.UserService;
 import com.bankmanager.application.views.AbstractView;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;

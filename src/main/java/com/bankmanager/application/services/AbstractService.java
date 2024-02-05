@@ -1,4 +1,4 @@
-package com.bankmanager.application.service;
+package com.bankmanager.application.services;
 
 import com.bankmanager.application.entities.AbstractEntity;
 import com.bankmanager.application.repositories.AbstractRepository;

@@ -1,11 +1,11 @@
-package com.bankmanager.application.service.user;
+package com.bankmanager.application.services.user;
 
 import com.bankmanager.application.entities.user.UserEntity;
 import com.bankmanager.application.enums.user.RoleEnum;
 import com.bankmanager.application.helpers.BCryptHelper;
 import com.bankmanager.application.helpers.user.UserHelper;
 import com.bankmanager.application.repositories.user.UserRepository;
-import com.bankmanager.application.service.AbstractService;
+import com.bankmanager.application.services.AbstractService;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinServletRequest;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;

@@ -1,4 +1,4 @@
-package com.bankmanager.application.service.expenses;
+package com.bankmanager.application.services.expenses;
 
 import com.bankmanager.application.entities.expenses.ExpenseEntity;
 import com.bankmanager.application.helpers.ConvertHelper;

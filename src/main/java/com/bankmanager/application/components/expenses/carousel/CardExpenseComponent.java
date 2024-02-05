@@ -5,8 +5,8 @@ import com.bankmanager.application.components.expenses.ConfirmExpensePaymentComp
 import com.bankmanager.application.entities.expenses.ExpenseEntity;
 import com.bankmanager.application.helpers.HTMLHelper;
 import com.bankmanager.application.models.expenses.carousel.CardExpenseModel;
-import com.bankmanager.application.service.expenses.CardExpenseService;
-import com.bankmanager.application.service.expenses.ExpenseService;
+import com.bankmanager.application.services.expenses.CardExpenseService;
+import com.bankmanager.application.services.expenses.ExpenseService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;

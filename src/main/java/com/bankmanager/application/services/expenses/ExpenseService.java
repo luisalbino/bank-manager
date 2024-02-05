@@ -1,22 +1,17 @@
-package com.bankmanager.application.service.expenses;
+package com.bankmanager.application.services.expenses;
 
 import com.bankmanager.application.entities.cash.CashFlowEntity;
 import com.bankmanager.application.entities.expenses.ExpenseEntity;
 import com.bankmanager.application.enums.cash.FlowTypeEnum;
 import com.bankmanager.application.repositories.expenses.ExpenseRepository;
-import com.bankmanager.application.service.AbstractService;
-import com.bankmanager.application.service.user.UserService;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.ManyToOne;
+import com.bankmanager.application.services.AbstractService;
+import com.bankmanager.application.services.user.UserService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.Objects;
 
 @Service
 public class ExpenseService extends AbstractService<ExpenseEntity, ExpenseRepository> {
