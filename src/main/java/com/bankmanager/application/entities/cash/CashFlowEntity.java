@@ -25,6 +25,8 @@ public class CashFlowEntity extends AbstractEntity {
     @Column(nullable = false)
     private LocalDateTime operationDate;
 
+    private LocalDateTime competencyData;
+
     @Column(nullable = false)
     private Double value;
 

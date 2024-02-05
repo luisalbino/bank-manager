@@ -15,6 +15,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Locale;
 import java.util.Objects;
 
 public class ConfirmExpensePaymentComponent extends CustomDialog {
@@ -23,14 +24,21 @@ public class ConfirmExpensePaymentComponent extends CustomDialog {
     private final Binder<ValueModel> binder = new Binder<>();
 
     public ConfirmExpensePaymentComponent(ExpenseService expenseService, ExpenseEntity expense, Runnable afterPay) {
-        super("Pagar despesa", "Pagar");
+        super("Pagar despesa", "Confirmar");
 
         this.expense = expense;
 
-        var fieldTime = new DatePicker("Dia do pagamento");
-        binder.forField(fieldTime)
+        var fieldPaymentDate = new DatePicker("Data do pagamento");
+        fieldPaymentDate.setLocale(new Locale("pt", "BR"));
+        binder.forField(fieldPaymentDate)
                 .withValidator(Objects::nonNull, "Informe uma data válida!")
-                .bind(ValueModel::getTime, ValueModel::setTime);
+                .bind(ValueModel::getPaymentDate, ValueModel::setPaymentDate);
+
+        var fieldCompetencyDate = new DatePicker("Data de competência");
+        fieldPaymentDate.setLocale(new Locale("pt", "BR"));
+        binder.forField(fieldCompetencyDate)
+                .withValidator(Objects::nonNull, "Informe uma data válida!")
+                .bind(ValueModel::getCompetencyDate, ValueModel::setCompetencyDate);
 
         var fieldValue = new NumberField("Valor pago");
         binder.forField(fieldValue)
@@ -42,11 +50,11 @@ public class ConfirmExpensePaymentComponent extends CustomDialog {
         layout.setSpacing(true);
 
         add(layout);
-        layout.add(fieldTime, fieldValue);
+        layout.add(fieldPaymentDate, fieldCompetencyDate, fieldValue);
 
         addConfirmAction(() -> {
             if (binder.isValid()) {
-                expenseService.pay(expense, binder.getBean().getTime(), binder.getBean().getValue());
+                expenseService.pay(expense, binder.getBean().getPaymentDate(), binder.getBean().getCompetencyDate(), binder.getBean().getValue());
                 afterPay.run();
                 close();
                 NotificationHelper.success("Despesa paga com sucesso!");
@@ -56,7 +64,7 @@ public class ConfirmExpensePaymentComponent extends CustomDialog {
 
     @Override
     public void open() {
-        BinderHelper.setAndClearFields(new ValueModel(ConvertHelper.toDouble(expense.getValue(), 0D), LocalDate.now()), binder);
+        BinderHelper.setAndClearFields(new ValueModel(ConvertHelper.toDouble(expense.getValue(), 0D),  LocalDate.now(), LocalDate.now()), binder);
         super.open();
     }
 
@@ -65,6 +73,7 @@ public class ConfirmExpensePaymentComponent extends CustomDialog {
     @AllArgsConstructor
     public static class ValueModel {
         private Double value;
-        private LocalDate time;
+        private LocalDate paymentDate;
+        private LocalDate competencyDate;
     }
 }

@@ -30,20 +30,15 @@ public class ExpenseService extends AbstractService<ExpenseEntity, ExpenseReposi
         save(expense);
     }
 
-    public void pay(ExpenseEntity expense, LocalDate time, Double value) {
-        var paidTime = time.atStartOfDay();
-
+    public void pay(ExpenseEntity expense, LocalDate paymentDate, LocalDate competencyDate, Double value) {
         var cashFlow = new CashFlowEntity();
         cashFlow.setDescription("Despesa " + expense.getName());
         cashFlow.setFlow(FlowTypeEnum.OUTFLOW);
-        cashFlow.setOperationDate(paidTime);
+        cashFlow.setOperationDate(paymentDate.atStartOfDay());
+        cashFlow.setCompetencyData(competencyDate.atStartOfDay());
         cashFlow.setValue(value);
         cashFlow.setExpense(expense);
         cashFlowService.save(cashFlow);
-
-        if (paidTime.getMonth().equals(LocalDateTime.now().getMonth())) {
-            expense.setLastTimePaid(paidTime);
-        }
 
         this.save(expense);
     }
