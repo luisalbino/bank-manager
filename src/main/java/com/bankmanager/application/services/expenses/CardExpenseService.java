@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 @Service
 public class CardExpenseService {
@@ -25,7 +26,11 @@ public class CardExpenseService {
                 var cardExense = new CardExpenseModel();
                 cardExense.setValueDisplay(CurrencyHelper.convert(cashFlow.getValue()));
                 cardExense.setValue(ConvertHelper.toDouble(cashFlow.getValue(), 0D));
-                cardExense.setDate(LocalDateTimeHelper.getDateStr(cashFlow.getOperationDate()));
+
+                if (Objects.nonNull(cashFlow.getCompetencyData())) {
+                    cardExense.setCompetencyDate(LocalDateTimeHelper.getDateStr(cashFlow.getCompetencyData()));
+                }
+                cardExense.setPaymentDate(LocalDateTimeHelper.getDateStr(cashFlow.getOperationDate()));
                 result.add(cardExense);
             }
         }

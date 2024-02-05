@@ -38,8 +38,19 @@ public class ExpenseEntity extends AbstractEntity {
     private Collection<CashFlowEntity> cashFlows;
 
     public boolean isPaid() {
-        var lastMonthPaid = LocalDateTimeHelper.getMonthStr(this.getLastTimePaid());
-        var thisMonth = LocalDateTimeHelper.getMonthStr(LocalDateTime.now());
-        return lastMonthPaid.equals(thisMonth);
+        var maxDate = cashFlows.stream()
+                .map(CashFlowEntity::getCompetencyData)
+                .filter(Objects::nonNull)
+                .max(LocalDateTime::compareTo)
+                .orElse(null);
+
+        var result = false;
+        if (Objects.nonNull(maxDate)) {
+            var lastMonthPaid = LocalDateTimeHelper.getMonthStr(maxDate);
+            var thisMonth = LocalDateTimeHelper.getMonthStr(LocalDateTime.now());
+            result = lastMonthPaid.equals(thisMonth);
+        }
+
+        return result;
     }
 }
