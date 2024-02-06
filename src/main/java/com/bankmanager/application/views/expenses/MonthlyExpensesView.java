@@ -5,6 +5,7 @@ import com.bankmanager.application.components.expenses.NewExpenseComponent;
 import com.bankmanager.application.components.expenses.carousel.CarouselExpenseComponent;
 import com.bankmanager.application.helpers.HTMLHelper;
 import com.bankmanager.application.services.expenses.CardExpenseService;
+import com.bankmanager.application.services.expenses.CashFlowService;
 import com.bankmanager.application.services.expenses.ExpenseService;
 import com.bankmanager.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
@@ -22,8 +23,8 @@ public class MonthlyExpensesView extends VerticalLayout {
     private final NewExpenseComponent newExpenseComponent;
     private final CarouselExpenseComponent carouselExpenseComponent;
 
-    public MonthlyExpensesView(ExpenseService expenseService, CardExpenseService cardExpenseService) {
-        carouselExpenseComponent = new CarouselExpenseComponent(expenseService, cardExpenseService);
+    public MonthlyExpensesView(ExpenseService expenseService, CashFlowService cashFlowService, CardExpenseService cardExpenseService) {
+        carouselExpenseComponent = new CarouselExpenseComponent(expenseService, cashFlowService, cardExpenseService);
         newExpenseComponent = new NewExpenseComponent(expenseService, carouselExpenseComponent::refresh);
         buildUI();
     }

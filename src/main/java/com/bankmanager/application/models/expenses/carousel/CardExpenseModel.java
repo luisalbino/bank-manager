@@ -7,6 +7,8 @@ import lombok.Setter;
 @Setter
 public class CardExpenseModel {
 
+    private Long idExpense;
+
     private String paymentDate;
 
     private String competencyDate;

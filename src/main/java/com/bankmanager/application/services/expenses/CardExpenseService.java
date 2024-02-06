@@ -24,6 +24,7 @@ public class CardExpenseService {
         if (CollectionUtils.isNotEmpty(expense.getCashFlows())) {
             for (var cashFlow : expense.getCashFlows())  {
                 var cardExense = new CardExpenseModel();
+                cardExense.setIdExpense(cashFlow.getId());
                 cardExense.setValueDisplay(CurrencyHelper.convert(cashFlow.getValue()));
                 cardExense.setValue(ConvertHelper.toDouble(cashFlow.getValue(), 0D));
 
