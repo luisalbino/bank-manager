@@ -1,10 +1,10 @@
-package com.bankmanager.application.views.user;
+package com.bankmanager.application.views.usuario;
 
 import com.bankmanager.application.components.buttons.CustomButton;
 import com.bankmanager.application.entities.user.UserEntity;
 import com.bankmanager.application.helpers.NotificationHelper;
 import com.bankmanager.application.services.user.UserService;
-import com.bankmanager.application.views.AbstractView;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
@@ -18,13 +18,13 @@ import java.util.Objects;
 @Route("register")
 @AnonymousAllowed
 @PageTitle("Registrar-se")
-public class UserRegistrationView extends AbstractView {
+public class CadastroUsuarioView extends VerticalLayout {
 
     private final UserService userService;
     private final InMemoryUserDetailsManager inMemoryUserDetailsManager;
     private final Binder<UserEntity> binder = new Binder<>();
 
-    public UserRegistrationView(UserService userService, InMemoryUserDetailsManager inMemoryUserDetailsManager) {
+    public CadastroUsuarioView(UserService userService, InMemoryUserDetailsManager inMemoryUserDetailsManager) {
         this.userService = userService;
         this.inMemoryUserDetailsManager = inMemoryUserDetailsManager;
 

@@ -2,8 +2,7 @@ package com.bankmanager.application.views;
 
 import com.bankmanager.application.components.buttons.CustomButton;
 import com.bankmanager.application.services.user.UserService;
-import com.bankmanager.application.views.cashflow.CashFlowView;
-import com.bankmanager.application.views.expenses.MonthlyExpensesView;
+import com.bankmanager.application.views.despesas.DespesasView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -75,8 +74,7 @@ public class MainLayout extends AppLayout {
     private SideNav createNavigation() {
         SideNav nav = new SideNav();
 
-        nav.addItem(new SideNavItem("Fluxo de caixa", CashFlowView.class, LineAwesomeIcon.CASH_REGISTER_SOLID.create()));
-        nav.addItem(new SideNavItem("Despesas a pagar", MonthlyExpensesView.class, LineAwesomeIcon.DOLLAR_SIGN_SOLID.create()));
+        nav.addItem(new SideNavItem("Despesas a pagar", DespesasView.class, LineAwesomeIcon.DOLLAR_SIGN_SOLID.create()));
 
         return nav;
     }

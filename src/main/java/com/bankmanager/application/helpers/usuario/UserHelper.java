@@ -1,4 +1,4 @@
-package com.bankmanager.application.helpers.user;
+package com.bankmanager.application.helpers.usuario;
 
 import com.bankmanager.application.entities.user.UserEntity;
 import lombok.AccessLevel;

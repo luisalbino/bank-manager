@@ -1,4 +1,4 @@
-package com.bankmanager.application.security;
+package com.bankmanager.application.services.security;
 
 import com.bankmanager.application.services.user.UserService;
 import com.bankmanager.application.views.login.LoginView;

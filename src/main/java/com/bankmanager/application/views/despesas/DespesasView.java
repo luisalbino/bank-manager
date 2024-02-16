@@ -1,12 +1,12 @@
-package com.bankmanager.application.views.expenses;
+package com.bankmanager.application.views.despesas;
 
 import com.bankmanager.application.components.buttons.CustomButton;
-import com.bankmanager.application.components.expenses.NewExpenseComponent;
-import com.bankmanager.application.components.expenses.carousel.CarouselExpenseComponent;
+import com.bankmanager.application.components.despesas.NovaDespesaComponent;
+import com.bankmanager.application.components.despesas.ConsultaDespesaComponent;
 import com.bankmanager.application.helpers.HTMLHelper;
 import com.bankmanager.application.services.expenses.CardExpenseService;
 import com.bankmanager.application.services.expenses.CashFlowService;
-import com.bankmanager.application.services.expenses.ExpenseService;
+import com.bankmanager.application.services.expenses.DespesaService;
 import com.bankmanager.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -16,16 +16,16 @@ import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.PermitAll;
 
 @PermitAll
-@PageTitle("Despesas mensais")
+@PageTitle("Despesas")
 @Route(value = "", layout = MainLayout.class)
-public class MonthlyExpensesView extends VerticalLayout {
+public class DespesasView extends VerticalLayout {
 
-    private final NewExpenseComponent newExpenseComponent;
-    private final CarouselExpenseComponent carouselExpenseComponent;
+    private final NovaDespesaComponent novaDespesaComponent;
+    private final ConsultaDespesaComponent consultaDespesaComponent;
 
-    public MonthlyExpensesView(ExpenseService expenseService, CashFlowService cashFlowService, CardExpenseService cardExpenseService) {
-        carouselExpenseComponent = new CarouselExpenseComponent(expenseService, cashFlowService, cardExpenseService);
-        newExpenseComponent = new NewExpenseComponent(expenseService, carouselExpenseComponent::refresh);
+    public DespesasView(DespesaService despesaService, CashFlowService cashFlowService, CardExpenseService cardExpenseService) {
+        consultaDespesaComponent = new ConsultaDespesaComponent(despesaService, cashFlowService, cardExpenseService);
+        novaDespesaComponent = new NovaDespesaComponent(despesaService, consultaDespesaComponent::refresh);
         buildUI();
     }
 
@@ -35,8 +35,8 @@ public class MonthlyExpensesView extends VerticalLayout {
         layout.add(
                 getButtonNewExpense(),
                 HTMLHelper.getHR(),
-                newExpenseComponent,
-                carouselExpenseComponent
+                novaDespesaComponent,
+                consultaDespesaComponent
         );
 
         add(layout);
@@ -45,7 +45,7 @@ public class MonthlyExpensesView extends VerticalLayout {
     private Component getButtonNewExpense() {
         var result = new CustomButton("Nova despesa");
         result.setIcon(VaadinIcon.PLUS.create());
-        result.addClickListener(event -> newExpenseComponent.open());
+        result.addClickListener(event -> novaDespesaComponent.open());
 
         return result;
     }

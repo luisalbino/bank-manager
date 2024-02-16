@@ -1,11 +1,11 @@
-package com.bankmanager.application.models.expenses.carousel;
+package com.bankmanager.application.models.despesas;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class CardExpenseModel {
+public class CardDespesaModel {
 
     private Long idExpense;
 

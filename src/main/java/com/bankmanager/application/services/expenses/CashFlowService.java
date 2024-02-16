@@ -1,7 +1,7 @@
 package com.bankmanager.application.services.expenses;
 
-import com.bankmanager.application.entities.cash.CashFlowEntity;
-import com.bankmanager.application.repositories.expenses.CashFlowRepository;
+import com.bankmanager.application.entities.despesas.FluxoCaixaEntity;
+import com.bankmanager.application.repositories.expenses.FluxoCaixaRepository;
 import com.bankmanager.application.services.AbstractService;
 import org.springframework.stereotype.Service;
 
@@ -9,9 +9,9 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Service
-public class CashFlowService extends AbstractService<CashFlowEntity, CashFlowRepository> {
+public class CashFlowService extends AbstractService<FluxoCaixaEntity, FluxoCaixaRepository> {
 
-    protected CashFlowService(CashFlowRepository repository) {
+    protected CashFlowService(FluxoCaixaRepository repository) {
         super(repository);
     }
 

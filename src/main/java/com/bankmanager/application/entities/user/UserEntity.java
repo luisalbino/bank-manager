@@ -11,7 +11,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
+@Entity(name = "user_entity")
 public class UserEntity extends AbstractEntity {
 
     @Column(nullable = false)

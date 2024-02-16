@@ -1,24 +1,20 @@
-package com.bankmanager.application.entities.expenses;
+package com.bankmanager.application.entities.despesas;
 
 import com.bankmanager.application.entities.AbstractEntity;
-import com.bankmanager.application.entities.cash.CashFlowEntity;
 import com.bankmanager.application.entities.user.UserEntity;
 import com.bankmanager.application.helpers.LocalDateTimeHelper;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.swing.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Objects;
 
 @Getter
 @Setter
-@Entity
-public class ExpenseEntity extends AbstractEntity {
+@Entity(name = "expense_entity")
+public class DesepesaEntity extends AbstractEntity {
 
     @Column(nullable = false)
     private String name;
@@ -35,11 +31,11 @@ public class ExpenseEntity extends AbstractEntity {
     private LocalDateTime lastTimePaid;
 
     @OneToMany(mappedBy = "expense", fetch = FetchType.EAGER)
-    private Collection<CashFlowEntity> cashFlows;
+    private Collection<FluxoCaixaEntity> cashFlows;
 
     public boolean isPaid() {
         var maxDate = cashFlows.stream()
-                .map(CashFlowEntity::getCompetencyData)
+                .map(FluxoCaixaEntity::getCompetencyData)
                 .filter(Objects::nonNull)
                 .max(LocalDateTime::compareTo)
                 .orElse(null);

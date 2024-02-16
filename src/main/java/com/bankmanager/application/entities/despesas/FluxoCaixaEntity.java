@@ -1,19 +1,18 @@
-package com.bankmanager.application.entities.cash;
+package com.bankmanager.application.entities.despesas;
 
 import com.bankmanager.application.entities.AbstractEntity;
-import com.bankmanager.application.entities.expenses.ExpenseEntity;
+import com.bankmanager.application.entities.despesas.DesepesaEntity;
 import com.bankmanager.application.enums.cash.FlowTypeEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Getter
 @Setter
-@Entity
-public class CashFlowEntity extends AbstractEntity {
+@Entity(name = "cash_flow_entity")
+public class FluxoCaixaEntity extends AbstractEntity {
 
     @Column(nullable = false, columnDefinition = "text")
     private String description;
@@ -31,5 +30,5 @@ public class CashFlowEntity extends AbstractEntity {
     private Double value;
 
     @ManyToOne
-    private ExpenseEntity expense;
+    private DesepesaEntity expense;
 }

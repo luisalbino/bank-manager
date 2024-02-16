@@ -1,4 +1,4 @@
-package com.bankmanager.application.security;
+package com.bankmanager.application.services.security;
 
 import com.vaadin.flow.spring.security.AuthenticationContext;
 import org.springframework.security.core.userdetails.UserDetails;

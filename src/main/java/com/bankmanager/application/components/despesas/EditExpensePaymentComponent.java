@@ -1,4 +1,4 @@
-package com.bankmanager.application.components.expenses;
+package com.bankmanager.application.components.despesas;
 
 import com.bankmanager.application.components.dialogs.CustomDialog;
 import com.bankmanager.application.helpers.BinderHelper;

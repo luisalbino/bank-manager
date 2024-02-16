@@ -1,11 +1,11 @@
-package com.bankmanager.application.components.expenses;
+package com.bankmanager.application.components.despesas;
 
 import com.bankmanager.application.components.dialogs.CustomDialog;
-import com.bankmanager.application.entities.expenses.ExpenseEntity;
+import com.bankmanager.application.entities.despesas.DesepesaEntity;
 import com.bankmanager.application.helpers.BinderHelper;
 import com.bankmanager.application.helpers.ConvertHelper;
 import com.bankmanager.application.helpers.NotificationHelper;
-import com.bankmanager.application.services.expenses.ExpenseService;
+import com.bankmanager.application.services.expenses.DespesaService;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
@@ -20,10 +20,10 @@ import java.util.Objects;
 
 public class ConfirmExpensePaymentComponent extends CustomDialog {
 
-    private final ExpenseEntity expense;
+    private final DesepesaEntity expense;
     private final Binder<ValueModel> binder = new Binder<>();
 
-    public ConfirmExpensePaymentComponent(ExpenseService expenseService, ExpenseEntity expense, Runnable afterPay) {
+    public ConfirmExpensePaymentComponent(DespesaService despesaService, DesepesaEntity expense, Runnable afterPay) {
         super("Pagar despesa", "Confirmar");
 
         this.expense = expense;
@@ -34,7 +34,12 @@ public class ConfirmExpensePaymentComponent extends CustomDialog {
                 .withValidator(Objects::nonNull, "Informe uma data válida!")
                 .bind(ValueModel::getPaymentDate, ValueModel::setPaymentDate);
 
+        DatePicker.DatePickerI18n i18n = new DatePicker.DatePickerI18n();
+        i18n.setDateFormat("MM-yyyy");
+        i18n.setReferenceDate(LocalDate.now());
+
         var fieldCompetencyDate = new DatePicker("Data de competência");
+        fieldCompetencyDate.setI18n(i18n);
         fieldPaymentDate.setLocale(new Locale("pt", "BR"));
         binder.forField(fieldCompetencyDate)
                 .withValidator(Objects::nonNull, "Informe uma data válida!")
@@ -54,7 +59,7 @@ public class ConfirmExpensePaymentComponent extends CustomDialog {
 
         addConfirmAction(() -> {
             if (binder.isValid()) {
-                expenseService.pay(expense, binder.getBean().getPaymentDate(), binder.getBean().getCompetencyDate(), binder.getBean().getValue());
+                despesaService.pay(expense, binder.getBean().getPaymentDate(), binder.getBean().getCompetencyDate(), binder.getBean().getValue());
                 afterPay.run();
                 close();
                 NotificationHelper.success("Despesa paga com sucesso!");
