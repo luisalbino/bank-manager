@@ -1,12 +1,12 @@
 package com.bankmanager.application.repositories.expenses;
 
-import com.bankmanager.application.entities.despesas.DesepesaEntity;
-import com.bankmanager.application.entities.user.UserEntity;
+import com.bankmanager.application.entities.despesas.DespesasEntity;
+import com.bankmanager.application.entities.user.UsuariosEntity;
 import com.bankmanager.application.repositories.AbstractRepository;
 
 import java.util.List;
 
-public interface DespesaRepository extends AbstractRepository<DesepesaEntity> {
+public interface DespesaRepository extends AbstractRepository<DespesasEntity> {
 
-    public List<DesepesaEntity> getByUser(UserEntity user);
+    List<DespesasEntity> getByUser(UsuariosEntity user);
 }

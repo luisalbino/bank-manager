@@ -11,17 +11,17 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity(name = "user_entity")
-public class UserEntity extends AbstractEntity {
+@Entity(name = "usuario")
+public class UsuariosEntity extends AbstractEntity {
 
     @Column(nullable = false)
-    private String name;
+    private String nome;
 
     @Column(nullable = false)
-    private String username;
+    private String login;
 
     @Column(nullable = false)
-    private String password;
+    private String senha;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

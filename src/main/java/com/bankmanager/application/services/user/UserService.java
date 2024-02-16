@@ -1,6 +1,6 @@
 package com.bankmanager.application.services.user;
 
-import com.bankmanager.application.entities.user.UserEntity;
+import com.bankmanager.application.entities.user.UsuariosEntity;
 import com.bankmanager.application.enums.user.RoleEnum;
 import com.bankmanager.application.helpers.BCryptHelper;
 import com.bankmanager.application.helpers.usuario.UserHelper;
@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Service
-public class UserService extends AbstractService<UserEntity, UserRepository> {
+public class UserService extends AbstractService<UsuariosEntity, UserRepository> {
 
     protected UserService(UserRepository repository) {
         super(repository);
@@ -30,25 +30,25 @@ public class UserService extends AbstractService<UserEntity, UserRepository> {
         return UserHelper.toUserDetail(this.getAll());
     }
 
-    public void createUser(UserEntity user, InMemoryUserDetailsManager inMemoryUserDetailsManager) {
+    public void createUser(UsuariosEntity user, InMemoryUserDetailsManager inMemoryUserDetailsManager) {
         beforeCreate(user);
         this.save(user);
         afterCreate(user, inMemoryUserDetailsManager);
     }
 
-    public void beforeCreate(UserEntity user) {
-        Collection<String> usernamesInUse = this.getAll().stream().map(UserEntity::getUsername).toList();
+    public void beforeCreate(UsuariosEntity user) {
+        Collection<String> usernamesInUse = this.getAll().stream().map(UsuariosEntity::getLogin).toList();
 
-        if (usernamesInUse.contains(user.getUsername())) {
+        if (usernamesInUse.contains(user.getLogin())) {
             throw new IllegalArgumentException("Username já está em uso!");
         }
 
         user.setRole(RoleEnum.ADMIN);
-        user.setPassword(BCryptHelper.toHash(user.getPassword()));
+        user.setSenha(BCryptHelper.toHash(user.getSenha()));
     }
 
-    public void afterCreate(UserEntity user, InMemoryUserDetailsManager inMemoryUserDetailsManager) {
-        var username = user.getUsername();
+    public void afterCreate(UsuariosEntity user, InMemoryUserDetailsManager inMemoryUserDetailsManager) {
+        var username = user.getLogin();
         if (!inMemoryUserDetailsManager.userExists(username)) {
             inMemoryUserDetailsManager.createUser(UserHelper.toUserDetail(user));
         }
@@ -62,12 +62,12 @@ public class UserService extends AbstractService<UserEntity, UserRepository> {
                 null);
     }
 
-    public UserEntity getByUsername(String username) {
+    public UsuariosEntity getByUsername(String username) {
         return repository.getByUsername(username);
     }
 
-    public UserEntity getLoggedUser() {
-        UserEntity result = null;
+    public UsuariosEntity getLoggedUser() {
+        UsuariosEntity result = null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             result = getByUsername(authentication.getName());

@@ -3,7 +3,7 @@ package com.bankmanager.application.components.despesas.carousel;
 import com.bankmanager.application.components.buttons.CustomButton;
 import com.bankmanager.application.components.despesas.ConfirmExpensePaymentComponent;
 import com.bankmanager.application.components.despesas.EditExpensePaymentComponent;
-import com.bankmanager.application.entities.despesas.DesepesaEntity;
+import com.bankmanager.application.entities.despesas.DespesasEntity;
 import com.bankmanager.application.helpers.HTMLHelper;
 import com.bankmanager.application.models.despesas.CardDespesaModel;
 import com.bankmanager.application.services.expenses.CardExpenseService;
@@ -20,7 +20,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 public class CardExpenseComponent extends Div {
 
-    private final DesepesaEntity expense;
+    private final DespesasEntity expense;
 
     private final CardExpenseService cardExpenseService;
 
@@ -28,7 +28,7 @@ public class CardExpenseComponent extends Div {
 
     private final EditExpensePaymentComponent editExpensePaymentComponent;
 
-    public CardExpenseComponent(DesepesaEntity expense, DespesaService despesaService, CashFlowService cashFlowService, CardExpenseService cardExpenseService, Runnable afterPay) {
+    public CardExpenseComponent(DespesasEntity expense, DespesaService despesaService, CashFlowService cashFlowService, CardExpenseService cardExpenseService, Runnable afterPay) {
         this.expense = expense;
         this.cardExpenseService = cardExpenseService;
         this.confirmExpensePaymentComponent = new ConfirmExpensePaymentComponent(despesaService, expense, afterPay);
@@ -46,11 +46,11 @@ public class CardExpenseComponent extends Div {
         var layout = new VerticalLayout();
         layout.setSizeFull();
 
-        var badge = new Span(expense.isPaid() ? "Pago" : "Não Pago");
-        badge.getElement().getThemeList().add("badge small " + (expense.isPaid() ? "success" : "error"));
+        var badge = new Span(expense.isPago() ? "Pago" : "Não Pago");
+        badge.getElement().getThemeList().add("badge small " + (expense.isPago() ? "success" : "error"));
 
         layout.add(
-                new H2(expense.getName()),
+                new H2(expense.getNome()),
                 badge,
                 HTMLHelper.getHR(),
                 getExpenseResume(),

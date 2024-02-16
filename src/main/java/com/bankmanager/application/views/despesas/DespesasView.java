@@ -25,7 +25,7 @@ public class DespesasView extends VerticalLayout {
 
     public DespesasView(DespesaService despesaService, CashFlowService cashFlowService, CardExpenseService cardExpenseService) {
         consultaDespesaComponent = new ConsultaDespesaComponent(despesaService, cashFlowService, cardExpenseService);
-        novaDespesaComponent = new NovaDespesaComponent(despesaService, consultaDespesaComponent::refresh);
+        novaDespesaComponent = new NovaDespesaComponent(despesaService, consultaDespesaComponent::carregarCards);
         buildUI();
     }
 

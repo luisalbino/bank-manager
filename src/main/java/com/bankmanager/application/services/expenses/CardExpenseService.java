@@ -1,6 +1,6 @@
 package com.bankmanager.application.services.expenses;
 
-import com.bankmanager.application.entities.despesas.DesepesaEntity;
+import com.bankmanager.application.entities.despesas.DespesasEntity;
 import com.bankmanager.application.helpers.ConvertHelper;
 import com.bankmanager.application.helpers.CurrencyHelper;
 import com.bankmanager.application.helpers.LocalDateTimeHelper;
@@ -18,20 +18,20 @@ public class CardExpenseService {
 
     private final static DateTimeFormatter ISO_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public Collection<CardDespesaModel> getModels(DesepesaEntity expense) {
+    public Collection<CardDespesaModel> getModels(DespesasEntity expense) {
         var result = new ArrayList<CardDespesaModel>();
 
-        if (CollectionUtils.isNotEmpty(expense.getCashFlows())) {
-            for (var cashFlow : expense.getCashFlows())  {
+        if (CollectionUtils.isNotEmpty(expense.getTransacoes())) {
+            for (var cashFlow : expense.getTransacoes())  {
                 var cardExense = new CardDespesaModel();
                 cardExense.setIdExpense(cashFlow.getId());
-                cardExense.setValueDisplay(CurrencyHelper.convert(cashFlow.getValue()));
-                cardExense.setValue(ConvertHelper.toDouble(cashFlow.getValue(), 0D));
+                cardExense.setValueDisplay(CurrencyHelper.convert(cashFlow.getValor()));
+                cardExense.setValue(ConvertHelper.toDouble(cashFlow.getValor(), 0D));
 
-                if (Objects.nonNull(cashFlow.getCompetencyData())) {
-                    cardExense.setCompetencyDate(LocalDateTimeHelper.getDateStr(cashFlow.getCompetencyData()));
+                if (Objects.nonNull(cashFlow.getMesReferencia())) {
+                    cardExense.setCompetencyDate(LocalDateTimeHelper.getDateStr(cashFlow.getMesReferencia()));
                 }
-                cardExense.setPaymentDate(LocalDateTimeHelper.getDateStr(cashFlow.getOperationDate()));
+                cardExense.setPaymentDate(LocalDateTimeHelper.getDateStr(cashFlow.getDataPagamento()));
                 result.add(cardExense);
             }
         }

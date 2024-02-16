@@ -1,7 +1,7 @@
 package com.bankmanager.application.views.usuario;
 
 import com.bankmanager.application.components.buttons.CustomButton;
-import com.bankmanager.application.entities.user.UserEntity;
+import com.bankmanager.application.entities.user.UsuariosEntity;
 import com.bankmanager.application.helpers.NotificationHelper;
 import com.bankmanager.application.services.user.UserService;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -22,13 +22,13 @@ public class CadastroUsuarioView extends VerticalLayout {
 
     private final UserService userService;
     private final InMemoryUserDetailsManager inMemoryUserDetailsManager;
-    private final Binder<UserEntity> binder = new Binder<>();
+    private final Binder<UsuariosEntity> binder = new Binder<>();
 
     public CadastroUsuarioView(UserService userService, InMemoryUserDetailsManager inMemoryUserDetailsManager) {
         this.userService = userService;
         this.inMemoryUserDetailsManager = inMemoryUserDetailsManager;
 
-        binder.setBean(new UserEntity());
+        binder.setBean(new UsuariosEntity());
 
         buildUI();
     }
@@ -38,19 +38,19 @@ public class CadastroUsuarioView extends VerticalLayout {
         fieldName.setRequired(true);
         binder.forField(fieldName)
                 .withValidator(Objects::nonNull, "Nome precisa ser informado!")
-                .bind(UserEntity::getName, UserEntity::setName);
+                .bind(UsuariosEntity::getNome, UsuariosEntity::setNome);
 
         var fieldUsername = new TextField("Username");
         fieldUsername.setRequired(true);
         binder.forField(fieldUsername)
                 .withValidator(Objects::nonNull, "Username precisa ser informado!")
-                .bind(UserEntity::getUsername, UserEntity::setUsername);
+                .bind(UsuariosEntity::getLogin, UsuariosEntity::setLogin);
 
         var fieldPassword = new PasswordField("Password");
         fieldPassword.setRequired(true);
         binder.forField(fieldPassword)
                 .withValidator(Objects::nonNull, "Password precisa ser informado!")
-                .bind(UserEntity::getPassword, UserEntity::setPassword);
+                .bind(UsuariosEntity::getSenha, UsuariosEntity::setSenha);
 
         var register = new CustomButton("Cadastrar-se");
         register.addClickListener(event -> {

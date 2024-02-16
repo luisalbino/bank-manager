@@ -1,7 +1,7 @@
 package com.bankmanager.application.components.despesas;
 
 import com.bankmanager.application.components.dialogs.CustomDialog;
-import com.bankmanager.application.entities.despesas.DesepesaEntity;
+import com.bankmanager.application.entities.despesas.DespesasEntity;
 import com.bankmanager.application.helpers.BinderHelper;
 import com.bankmanager.application.helpers.ConvertHelper;
 import com.bankmanager.application.helpers.NotificationHelper;
@@ -20,10 +20,10 @@ import java.util.Objects;
 
 public class ConfirmExpensePaymentComponent extends CustomDialog {
 
-    private final DesepesaEntity expense;
+    private final DespesasEntity expense;
     private final Binder<ValueModel> binder = new Binder<>();
 
-    public ConfirmExpensePaymentComponent(DespesaService despesaService, DesepesaEntity expense, Runnable afterPay) {
+    public ConfirmExpensePaymentComponent(DespesaService despesaService, DespesasEntity expense, Runnable afterPay) {
         super("Pagar despesa", "Confirmar");
 
         this.expense = expense;
@@ -69,7 +69,7 @@ public class ConfirmExpensePaymentComponent extends CustomDialog {
 
     @Override
     public void open() {
-        BinderHelper.setAndClearFields(new ValueModel(ConvertHelper.toDouble(expense.getValue(), 0D),  LocalDate.now(), LocalDate.now()), binder);
+        BinderHelper.setAndClearFields(new ValueModel(ConvertHelper.toDouble(expense.getValor(), 0D),  LocalDate.now(), LocalDate.now()), binder);
         super.open();
     }
 

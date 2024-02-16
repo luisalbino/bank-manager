@@ -9,22 +9,22 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 public class ConsultaDespesaComponent extends VerticalLayout {
 
     private final DespesaService despesaService;
-    private final CashFlowService cashFlowService;
+    private final CashFlowService transacaoService;
     private final CardExpenseService cardExpenseService;
 
-    public ConsultaDespesaComponent(DespesaService despesaService, CashFlowService cashFlowService, CardExpenseService cardExpenseService) {
+    public ConsultaDespesaComponent(DespesaService despesaService, CashFlowService transacaoService, CardExpenseService cardExpenseService) {
         this.despesaService = despesaService;
-        this.cashFlowService = cashFlowService;
+        this.transacaoService = transacaoService;
         this.cardExpenseService = cardExpenseService;
 
         setSizeFull();
-        refresh();
+        carregarCards();
     }
 
-    public void refresh() {
+    public void carregarCards() {
         this.removeAll();
         for (var expense : despesaService.getAll()) {
-            this.add(new CardExpenseComponent(expense, despesaService, cashFlowService, cardExpenseService, this::refresh));
+            this.add(new CardExpenseComponent(expense, despesaService, transacaoService, cardExpenseService, this::carregarCards));
         }
     }
 }

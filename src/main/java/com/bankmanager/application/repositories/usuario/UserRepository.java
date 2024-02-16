@@ -1,9 +1,9 @@
 package com.bankmanager.application.repositories.usuario;
 
-import com.bankmanager.application.entities.user.UserEntity;
+import com.bankmanager.application.entities.user.UsuariosEntity;
 import com.bankmanager.application.repositories.AbstractRepository;
 
-public interface UserRepository extends AbstractRepository<UserEntity> {
+public interface UserRepository extends AbstractRepository<UsuariosEntity> {
 
-    UserEntity getByUsername(String username);
+    UsuariosEntity getByUsername(String username);
 }
