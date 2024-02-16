@@ -2,7 +2,7 @@ package com.bankmanager.application.services.expenses;
 
 import com.bankmanager.application.entities.despesas.DespesasEntity;
 import com.bankmanager.application.entities.despesas.TransacoesEntity;
-import com.bankmanager.application.repositories.expenses.DespesaRepository;
+import com.bankmanager.application.repositories.desepesas.DespesasRepository;
 import com.bankmanager.application.services.AbstractService;
 import com.bankmanager.application.services.user.UserService;
 import org.springframework.stereotype.Service;
@@ -12,12 +12,12 @@ import java.util.Collection;
 import java.util.Comparator;
 
 @Service
-public class DespesaService extends AbstractService<DespesasEntity, DespesaRepository> {
+public class DespesaService extends AbstractService<DespesasEntity, DespesasRepository> {
 
     private final UserService userService;
     private final CashFlowService cashFlowService;
 
-    protected DespesaService(DespesaRepository repository, UserService userService, CashFlowService cashFlowService) {
+    protected DespesaService(DespesasRepository repository, UserService userService, CashFlowService cashFlowService) {
         super(repository);
         this.userService = userService;
         this.cashFlowService = cashFlowService;
@@ -42,6 +42,6 @@ public class DespesaService extends AbstractService<DespesasEntity, DespesaRepos
 
     @Override
     public Collection<DespesasEntity> getAll() {
-        return repository.getByUser(userService.getLoggedUser()).stream().sorted(Comparator.comparingLong(DespesasEntity::getId)).toList();
+        return repository.getByUsuario(userService.getLoggedUser()).stream().sorted(Comparator.comparingLong(DespesasEntity::getId)).toList();
     }
 }

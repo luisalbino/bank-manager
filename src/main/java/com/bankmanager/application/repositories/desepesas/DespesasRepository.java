@@ -1,4 +1,4 @@
-package com.bankmanager.application.repositories.expenses;
+package com.bankmanager.application.repositories.desepesas;
 
 import com.bankmanager.application.entities.despesas.DespesasEntity;
 import com.bankmanager.application.entities.user.UsuariosEntity;
@@ -6,7 +6,7 @@ import com.bankmanager.application.repositories.AbstractRepository;
 
 import java.util.List;
 
-public interface DespesaRepository extends AbstractRepository<DespesasEntity> {
+public interface DespesasRepository extends AbstractRepository<DespesasEntity> {
 
-    List<DespesasEntity> getByUser(UsuariosEntity user);
+    List<DespesasEntity> getByUsuario(UsuariosEntity usuario);
 }

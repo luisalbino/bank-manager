@@ -4,7 +4,7 @@ import com.bankmanager.application.entities.user.UsuariosEntity;
 import com.bankmanager.application.enums.user.RoleEnum;
 import com.bankmanager.application.helpers.BCryptHelper;
 import com.bankmanager.application.helpers.usuario.UserHelper;
-import com.bankmanager.application.repositories.usuario.UserRepository;
+import com.bankmanager.application.repositories.usuario.UsuarioRepository;
 import com.bankmanager.application.services.AbstractService;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.server.VaadinServletRequest;
@@ -20,9 +20,9 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Service
-public class UserService extends AbstractService<UsuariosEntity, UserRepository> {
+public class UserService extends AbstractService<UsuariosEntity, UsuarioRepository> {
 
-    protected UserService(UserRepository repository) {
+    protected UserService(UsuarioRepository repository) {
         super(repository);
     }
 
@@ -63,7 +63,7 @@ public class UserService extends AbstractService<UsuariosEntity, UserRepository>
     }
 
     public UsuariosEntity getByUsername(String username) {
-        return repository.getByUsername(username);
+        return repository.getByLogin(username);
     }
 
     public UsuariosEntity getLoggedUser() {
