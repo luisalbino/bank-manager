@@ -3,6 +3,7 @@ package com.bankmanager.application.components.dialogs;
 import com.bankmanager.application.components.buttons.CustomButton;
 import com.bankmanager.application.helpers.ConvertHelper;
 import com.bankmanager.application.helpers.HTMLHelper;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -26,6 +27,7 @@ public class CustomDialog extends Dialog {
         cancelButton.addClickListener(event -> close());
 
         confirmButton = new CustomButton(ConvertHelper.toString(confirmText, "Salvar"));
+        confirmButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         getFooter().add(cancelButton, confirmButton);
     }

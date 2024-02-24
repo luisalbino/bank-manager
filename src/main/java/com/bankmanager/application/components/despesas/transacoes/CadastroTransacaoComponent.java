@@ -5,8 +5,11 @@ import com.bankmanager.application.entities.despesas.DespesaEntity;
 import com.bankmanager.application.helpers.BinderHelper;
 import com.bankmanager.application.helpers.ConvertHelper;
 import com.bankmanager.application.helpers.NotificationHelper;
+import com.bankmanager.application.helpers.binder.validators.DoubleNotSmallerOrEqualsThenZeroValidator;
+import com.bankmanager.application.helpers.binder.validators.ObjectNotNullValidador;
 import com.bankmanager.application.services.expenses.DespesaService;
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.data.binder.Binder;
@@ -28,34 +31,36 @@ public class CadastroTransacaoComponent extends CustomDialog {
 
         this.despesa = despesa;
 
-        var fieldPaymentDate = new DatePicker("Data do pagamento");
-        fieldPaymentDate.setLocale(new Locale("pt", "BR"));
-        binder.forField(fieldPaymentDate)
-                .withValidator(Objects::nonNull, "Informe uma data válida!")
+        var campoDataPagamento = new DatePicker("Data do pagamento");
+        campoDataPagamento.setLocale(new Locale("pt", "BR"));
+        binder.forField(campoDataPagamento)
+                .withValidator(new ObjectNotNullValidador())
                 .bind(ValueModel::getPaymentDate, ValueModel::setPaymentDate);
 
         DatePicker.DatePickerI18n i18n = new DatePicker.DatePickerI18n();
-        i18n.setDateFormat("MM-yyyy");
+        i18n.setDateFormat(despesa.isAnual() ? "yyyy" : "MM/yyyy");
         i18n.setReferenceDate(LocalDate.now());
 
-        var fieldCompetencyDate = new DatePicker("Data de competência");
-        fieldCompetencyDate.setI18n(i18n);
-        fieldPaymentDate.setLocale(new Locale("pt", "BR"));
-        binder.forField(fieldCompetencyDate)
-                .withValidator(Objects::nonNull, "Informe uma data válida!")
+        var campoDataCompetencia = new DatePicker("Data de competência");
+        campoDataCompetencia.setI18n(i18n);
+        campoDataCompetencia.setVisible(!despesa.isRecorrente());
+        campoDataCompetencia.setLocale(new Locale("pt", "BR"));
+        binder.forField(campoDataCompetencia)
+                .withValidator(new ObjectNotNullValidador())
                 .bind(ValueModel::getCompetencyDate, ValueModel::setCompetencyDate);
 
-        var fieldValue = new NumberField("Valor pago");
-        binder.forField(fieldValue)
-                .withValidator(value -> ConvertHelper.toDouble(value, 0D) > 0, "O valor precisa ser maior que zero (0)!")
+        var campoValor = new NumberField("Valor pago");
+        campoValor.setPrefixComponent(VaadinIcon.DOLLAR.create());
+        binder.forField(campoValor)
+                .withValidator(new DoubleNotSmallerOrEqualsThenZeroValidator())
                 .bind(ValueModel::getValue, ValueModel::setValue);
 
         var layout = new HorizontalLayout();
         layout.setMargin(true);
         layout.setSpacing(true);
+        layout.add(campoDataPagamento, campoDataCompetencia, campoValor);
 
         add(layout);
-        layout.add(fieldPaymentDate, fieldCompetencyDate, fieldValue);
 
         addConfirmAction(() -> {
             if (binder.isValid()) {
