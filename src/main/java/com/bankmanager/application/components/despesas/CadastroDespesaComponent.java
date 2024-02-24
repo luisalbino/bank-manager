@@ -5,8 +5,8 @@ import com.bankmanager.application.entities.despesas.DespesasEntity;
 import com.bankmanager.application.enums.despesas.TipoDespesaEnum;
 import com.bankmanager.application.helpers.BinderHelper;
 import com.bankmanager.application.helpers.NotificationHelper;
-import com.bankmanager.application.helpers.validators.ObjectNotNullValidador;
-import com.bankmanager.application.helpers.validators.StringNotBlankValidator;
+import com.bankmanager.application.helpers.binder.validators.ObjectNotNullValidador;
+import com.bankmanager.application.helpers.binder.validators.StringNotBlankValidator;
 import com.bankmanager.application.services.expenses.DespesaService;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
@@ -14,9 +14,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.Objects;
 
 public class CadastroDespesaComponent extends CustomDialog {
 

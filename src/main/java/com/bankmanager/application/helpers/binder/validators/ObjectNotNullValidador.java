@@ -1,17 +1,15 @@
-package com.bankmanager.application.helpers.validators;
+package com.bankmanager.application.helpers.binder.validators;
 
 import com.vaadin.flow.data.binder.ValidationResult;
 import com.vaadin.flow.data.binder.Validator;
 import com.vaadin.flow.data.binder.ValueContext;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 
-public class StringNotBlankValidator implements Validator<String> {
-
+public class ObjectNotNullValidador implements Validator<Object> {
     @Override
-    public ValidationResult apply(String string, ValueContext valueContext) {
-        if (StringUtils.isBlank(string)) {
+    public ValidationResult apply(Object entidade, ValueContext valueContext) {
+        if (Objects.isNull(entidade)) {
             return ValidationResult.error("Informe um valor válido!");
         }
 
