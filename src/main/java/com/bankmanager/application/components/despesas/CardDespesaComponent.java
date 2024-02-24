@@ -62,6 +62,7 @@ public class CardDespesaComponent extends Div {
 
     private Component getColunaAcoes(TrasacaoModel trasacaoModel) {
         var botaoEditar = new CustomButton(VaadinIcon.PENCIL.create());
+        botaoEditar.setTooltipText("Editar");
         botaoEditar.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         botaoEditar.addClickListener(event -> {
             cadastroTransacaoComponent.editar(trasacaoModel);
@@ -69,6 +70,7 @@ public class CardDespesaComponent extends Div {
 
         var botaoExcluir = new CustomButton(VaadinIcon.TRASH.create());
         botaoExcluir.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        botaoExcluir.setTooltipText("Excluir");
         botaoExcluir.addClickListener(event -> {
            cardTrasacaoService.excluirPagamento(trasacaoModel);
             NotificationHelper.success("Transação excluida com sucesso!");

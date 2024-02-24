@@ -52,11 +52,11 @@ public class TrasacaoModel {
         String resultado = null;
 
         if (TipoPerformanceEnum.isPositivo(this.getTipoPerformance())) {
-            resultado = "Pagamento foi " + getPerformance() + " menor em comparação ao último!";
+            resultado = "Valor " + getPerformance() + " menor que o ultimo pagamento!";
         }
 
         if (TipoPerformanceEnum.isNegativo(this.getTipoPerformance())) {
-            resultado = "Pagamento foi " + getPerformance() + " maior em comparação ao último!";
+            resultado = "Valor " + getPerformance() + " maior que o ultimo pagamento!";
         }
 
         return resultado;
