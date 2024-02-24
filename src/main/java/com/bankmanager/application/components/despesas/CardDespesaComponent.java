@@ -4,6 +4,7 @@ import com.bankmanager.application.components.buttons.CustomButton;
 import com.bankmanager.application.components.despesas.transacoes.CadastroTransacaoComponent;
 import com.bankmanager.application.entities.despesas.DespesaEntity;
 import com.bankmanager.application.helpers.HTMLHelper;
+import com.bankmanager.application.helpers.NotificationHelper;
 import com.bankmanager.application.models.despesas.transacoes.TrasacaoModel;
 import com.bankmanager.application.services.expenses.CardTrasacaoService;
 import com.vaadin.flow.component.Component;
@@ -23,11 +24,13 @@ public class CardDespesaComponent extends Div {
     private final DespesaEntity despesa;
     private final CardTrasacaoService cardTrasacaoService;
     private final CadastroTransacaoComponent cadastroTransacaoComponent;
+    private final Runnable afterPagarExcluirFunc;
 
-    public CardDespesaComponent(DespesaEntity despesa, CardTrasacaoService cardTrasacaoService, Runnable afterPagamentoFunc) {
+    public CardDespesaComponent(DespesaEntity despesa, CardTrasacaoService cardTrasacaoService, Runnable afterPagarExcluirFunc) {
         this.despesa = despesa;
         this.cardTrasacaoService = cardTrasacaoService;
-        this.cadastroTransacaoComponent = new CadastroTransacaoComponent(cardTrasacaoService, despesa, afterPagamentoFunc);
+        this.afterPagarExcluirFunc = afterPagarExcluirFunc;
+        this.cadastroTransacaoComponent = new CadastroTransacaoComponent(cardTrasacaoService, despesa, afterPagarExcluirFunc);
 
         setWidthFull();
         getStyle().set("padding", "5px");
@@ -64,7 +67,15 @@ public class CardDespesaComponent extends Div {
             cadastroTransacaoComponent.editar(trasacaoModel);
         });
 
-        return botaoEditar;
+        var botaoExcluir = new CustomButton(VaadinIcon.TRASH.create());
+        botaoExcluir.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        botaoExcluir.addClickListener(event -> {
+           cardTrasacaoService.excluirPagamento(trasacaoModel);
+            NotificationHelper.success("Transação excluida com sucesso!");
+           this.afterPagarExcluirFunc.run();
+        });
+
+        return new HorizontalLayout(botaoEditar, botaoExcluir);
     }
 
     private Component getColunaPerformance(TrasacaoModel trasacaoModel) {
@@ -100,12 +111,12 @@ public class CardDespesaComponent extends Div {
     }
 
     private Component getButtonPaid() {
-        var buttonPaid = new CustomButton("Pagar");
-        buttonPaid.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        buttonPaid.addClickListener(event -> cadastroTransacaoComponent.novo());
+        var botaoPagar = new CustomButton("Pagar");
+        botaoPagar.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        botaoPagar.addClickListener(event -> cadastroTransacaoComponent.novo());
 
         var layout = new HorizontalLayout();
-        layout.add(buttonPaid);
+        layout.add(botaoPagar);
         layout.setWidth("100%");
         layout.setAlignItems(FlexComponent.Alignment.END);
         layout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);

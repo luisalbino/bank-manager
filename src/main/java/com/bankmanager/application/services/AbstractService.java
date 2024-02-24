@@ -4,10 +4,7 @@ import com.bankmanager.application.entities.AbstractEntity;
 import com.bankmanager.application.repositories.AbstractRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public abstract class AbstractService<E extends AbstractEntity, T extends AbstractRepository<E>> {
@@ -28,6 +25,10 @@ public abstract class AbstractService<E extends AbstractEntity, T extends Abstra
 
     public void save(Collection<E> data) {
         this.repository.saveAll(data);
+    }
+
+    public void remove(Long id) {
+        this.repository.deleteById(id);
     }
 
     public void remove(E data) {

@@ -6,7 +6,7 @@ import com.bankmanager.application.enums.despesas.transacoes.TipoPerformanceEnum
 import com.bankmanager.application.helpers.ConvertHelper;
 import com.bankmanager.application.helpers.CurrencyHelper;
 import com.bankmanager.application.helpers.LocalDateTimeHelper;
-import com.bankmanager.application.models.despesas.transacoes.CardTrasacaoModel;
+import com.bankmanager.application.models.despesas.transacoes.CadastroTransacaoModel;
 import com.bankmanager.application.models.despesas.transacoes.TrasacaoModel;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
@@ -78,15 +78,19 @@ public class CardTrasacaoService {
         return result.stream().sorted(Comparator.comparing(TrasacaoModel::getDataPagamento).reversed()).toList();
     }
 
-    public void pagarOrEditar(DespesaEntity despesa, CardTrasacaoModel cardTrasacaoModel) {
-        var trasacao = this.transacaoService.getOrNew(cardTrasacaoModel.getIdTrasacao());
+    public void pagarOrEditar(DespesaEntity despesa, CadastroTransacaoModel cadastroTransacaoModel) {
+        var trasacao = this.transacaoService.getOrNew(cadastroTransacaoModel.getIdTrasacao());
         trasacao.setDescricao("Despesa " + despesa.getNome());
-        trasacao.setDataPagamento(cardTrasacaoModel.getDataPagamento().atStartOfDay());
-        trasacao.setDataReferencia(cardTrasacaoModel.getDataReferencia().atStartOfDay());
-        trasacao.setValor(cardTrasacaoModel.getValor());
+        trasacao.setDataPagamento(cadastroTransacaoModel.getDataPagamento().atStartOfDay());
+        trasacao.setDataReferencia(cadastroTransacaoModel.getDataReferencia().atStartOfDay());
+        trasacao.setValor(cadastroTransacaoModel.getValor());
         trasacao.setDespesa(despesa);
 
         transacaoService.save(trasacao);
+    }
+
+    public void excluirPagamento(TrasacaoModel cardTrasacaoModel) {
+        this.transacaoService.remove(cardTrasacaoModel.getId());
     }
 
     public String getFooterValue(Collection<TrasacaoModel> cardsExpenses) {

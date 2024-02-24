@@ -6,7 +6,7 @@ import com.bankmanager.application.helpers.BinderHelper;
 import com.bankmanager.application.helpers.NotificationHelper;
 import com.bankmanager.application.helpers.binder.validators.DoubleNotSmallerOrEqualsThenZeroValidator;
 import com.bankmanager.application.helpers.binder.validators.ObjectNotNullValidador;
-import com.bankmanager.application.models.despesas.transacoes.CardTrasacaoModel;
+import com.bankmanager.application.models.despesas.transacoes.CadastroTransacaoModel;
 import com.bankmanager.application.models.despesas.transacoes.TrasacaoModel;
 import com.bankmanager.application.services.expenses.CardTrasacaoService;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -21,7 +21,7 @@ import java.util.Locale;
 public class CadastroTransacaoComponent extends CustomDialog {
 
     private final DespesaEntity despesa;
-    private final Binder<CardTrasacaoModel> binder = new Binder<>();
+    private final Binder<CadastroTransacaoModel> binder = new Binder<>();
 
     public CadastroTransacaoComponent(CardTrasacaoService cardTrasacaoService, DespesaEntity despesa, Runnable afterPay) {
         super("Pagar despesa", "Confirmar");
@@ -32,7 +32,7 @@ public class CadastroTransacaoComponent extends CustomDialog {
         campoDataPagamento.setLocale(new Locale("pt", "BR"));
         binder.forField(campoDataPagamento)
                 .withValidator(new ObjectNotNullValidador())
-                .bind(CardTrasacaoModel::getDataPagamento, CardTrasacaoModel::setDataPagamento);
+                .bind(CadastroTransacaoModel::getDataPagamento, CadastroTransacaoModel::setDataPagamento);
 
         DatePicker.DatePickerI18n i18n = new DatePicker.DatePickerI18n();
         i18n.setDateFormat(despesa.isAnual() ? "yyyy" : "MM/yyyy");
@@ -44,13 +44,13 @@ public class CadastroTransacaoComponent extends CustomDialog {
         campoDataCompetencia.setLocale(new Locale("pt", "BR"));
         binder.forField(campoDataCompetencia)
                 .withValidator(new ObjectNotNullValidador())
-                .bind(CardTrasacaoModel::getDataReferencia, CardTrasacaoModel::setDataReferencia);
+                .bind(CadastroTransacaoModel::getDataReferencia, CadastroTransacaoModel::setDataReferencia);
 
         var campoValor = new NumberField("Valor pago");
         campoValor.setPrefixComponent(VaadinIcon.DOLLAR.create());
         binder.forField(campoValor)
                 .withValidator(new DoubleNotSmallerOrEqualsThenZeroValidator())
-                .bind(CardTrasacaoModel::getValor, CardTrasacaoModel::setValor);
+                .bind(CadastroTransacaoModel::getValor, CadastroTransacaoModel::setValor);
 
         var layout = new HorizontalLayout();
         layout.setMargin(true);
@@ -70,12 +70,12 @@ public class CadastroTransacaoComponent extends CustomDialog {
     }
 
     public void novo() {
-        BinderHelper.setAndClearFields(new CardTrasacaoModel(despesa), binder);
+        BinderHelper.setAndClearFields(new CadastroTransacaoModel(despesa), binder);
         super.open();
     }
 
     public void editar(TrasacaoModel trasacaoModel) {
-        BinderHelper.setAndClearFields(new CardTrasacaoModel(trasacaoModel), binder);
+        BinderHelper.setAndClearFields(new CadastroTransacaoModel(trasacaoModel), binder);
         super.open();
     }
 }
