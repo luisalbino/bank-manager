@@ -19,7 +19,6 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.Locale;
-import java.util.Objects;
 
 public class CadastroTransacaoComponent extends CustomDialog {
 
@@ -43,7 +42,7 @@ public class CadastroTransacaoComponent extends CustomDialog {
 
         var campoDataCompetencia = new DatePicker("Data de competência");
         campoDataCompetencia.setI18n(i18n);
-        campoDataCompetencia.setVisible(!despesa.isRecorrente());
+        campoDataCompetencia.setVisible(despesa.isNotRecorrente());
         campoDataCompetencia.setLocale(new Locale("pt", "BR"));
         binder.forField(campoDataCompetencia)
                 .withValidator(new ObjectNotNullValidador())

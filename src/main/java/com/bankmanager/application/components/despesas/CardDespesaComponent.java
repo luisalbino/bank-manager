@@ -1,6 +1,5 @@
 package com.bankmanager.application.components.despesas;
 
-import ch.qos.logback.classic.pattern.RelativeTimeConverter;
 import com.bankmanager.application.components.buttons.CustomButton;
 import com.bankmanager.application.components.despesas.transacoes.CadastroTransacaoComponent;
 import com.bankmanager.application.entities.despesas.DespesaEntity;
@@ -84,7 +83,7 @@ public class CardDespesaComponent extends Div {
         var grid = new Grid<TrasacaoModel>();
         grid.addComponentColumn(this::getColunaAcoes).setHeader("Ações").setAutoWidth(true).setFlexGrow(0);
         grid.addColumn(TrasacaoModel::getDataPagamentoStr).setHeader("Data Pagamento");
-        grid.addColumn(TrasacaoModel::getDataCompetencia).setHeader("Data Competência").setVisible(!this.despesa.isRecorrente());
+        grid.addColumn(TrasacaoModel::getDataCompetencia).setHeader("Data Competência").setVisible(this.despesa.isNotRecorrente());
         grid.addColumn(TrasacaoModel::getValorStr).setHeader("Valor").setKey("valor");
         grid.addComponentColumn(this::getColunaPerformance).setHeader("Performance").setKey("performance");
 
