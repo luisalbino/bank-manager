@@ -19,13 +19,13 @@ public class CadastroDespesaComponent extends CustomDialog {
 
     private final Binder<DespesaEntity> binder = new Binder<>();
 
-    public CadastroDespesaComponent(DespesaService despesaService, Runnable afterSaveFunc) {
+    public CadastroDespesaComponent(DespesaService service, Runnable afterSaveFunc) {
         super("Nova despesa");
 
         addConfirmAction(() -> {
             binder.validate();
             if (binder.isValid()) {
-                despesaService.create(binder.getBean());
+                service.create(binder.getBean());
                 afterSaveFunc.run();
                 NotificationHelper.success("Despesa criada com sucesso!");
                 close();
@@ -61,11 +61,6 @@ public class CadastroDespesaComponent extends CustomDialog {
     @Override
     public void open() {
         BinderHelper.setAndClearFields(new DespesaEntity(), binder);
-        super.open();
-    }
-
-    public void edit(DespesaEntity despesa) {
-        BinderHelper.setAndClearFields(despesa, binder);
         super.open();
     }
 }
