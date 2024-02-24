@@ -1,6 +1,6 @@
 package com.bankmanager.application.services.expenses;
 
-import com.bankmanager.application.entities.despesas.DespesasEntity;
+import com.bankmanager.application.entities.despesas.DespesaEntity;
 import com.bankmanager.application.helpers.ConvertHelper;
 import com.bankmanager.application.helpers.CurrencyHelper;
 import com.bankmanager.application.helpers.LocalDateTimeHelper;
@@ -15,7 +15,7 @@ import java.util.Objects;
 @Service
 public class CardTrasacaoService {
 
-    public Collection<CardDespesaModel> getModels(DespesasEntity expense) {
+    public Collection<CardDespesaModel> getModels(DespesaEntity expense) {
         var result = new ArrayList<CardDespesaModel>();
 
         if (CollectionUtils.isNotEmpty(expense.getTransacoes())) {

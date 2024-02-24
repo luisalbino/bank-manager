@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity(name = "trasacoes")
-public class TransacoesEntity extends AbstractEntity {
+public class TransacaoEntity extends AbstractEntity {
 
     @Column(nullable = false, columnDefinition = "text")
     private String descricao;
@@ -26,5 +26,5 @@ public class TransacoesEntity extends AbstractEntity {
     private Double valor;
 
     @ManyToOne
-    private DespesasEntity despesa;
+    private DespesaEntity despesa;
 }

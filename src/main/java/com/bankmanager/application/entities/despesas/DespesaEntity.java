@@ -17,7 +17,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "despesas")
-public class DespesasEntity extends AbstractEntity {
+public class DespesaEntity extends AbstractEntity {
 
     @Column(nullable = false)
     private String nome;
@@ -35,11 +35,11 @@ public class DespesasEntity extends AbstractEntity {
     private UsuariosEntity usuario;
 
     @OneToMany(mappedBy = "despesa", fetch = FetchType.EAGER)
-    private Collection<TransacoesEntity> transacoes;
+    private Collection<TransacaoEntity> transacoes;
 
     public boolean isPago() {
         var maxDate = transacoes.stream()
-                .map(TransacoesEntity::getDataReferencia)
+                .map(TransacaoEntity::getDataReferencia)
                 .filter(Objects::nonNull)
                 .max(LocalDateTime::compareTo)
                 .orElse(null);

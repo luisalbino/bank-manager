@@ -1,7 +1,7 @@
 package com.bankmanager.application.components.despesas.transacoes;
 
 import com.bankmanager.application.components.buttons.CustomButton;
-import com.bankmanager.application.entities.despesas.DespesasEntity;
+import com.bankmanager.application.entities.despesas.DespesaEntity;
 import com.bankmanager.application.helpers.HTMLHelper;
 import com.bankmanager.application.models.despesas.CardDespesaModel;
 import com.bankmanager.application.services.expenses.CardTrasacaoService;
@@ -18,16 +18,16 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 public class CardTransacaoComponent extends Div {
 
-    private final DespesasEntity despesasEntity;
+    private final DespesaEntity despesaEntity;
 
     private final CardTrasacaoService cardTrasacaoService;
 
     private final CadastroTransacaoComponent cadastroTransacaoComponent;
 
-    public CardTransacaoComponent(DespesasEntity despesasEntity, DespesaService despesaService, CashFlowService cashFlowService, CardTrasacaoService cardTrasacaoService, Runnable afterPay) {
-        this.despesasEntity = despesasEntity;
+    public CardTransacaoComponent(DespesaEntity despesaEntity, DespesaService despesaService, CashFlowService cashFlowService, CardTrasacaoService cardTrasacaoService, Runnable afterPay) {
+        this.despesaEntity = despesaEntity;
         this.cardTrasacaoService = cardTrasacaoService;
-        this.cadastroTransacaoComponent = new CadastroTransacaoComponent(despesaService, despesasEntity, afterPay);
+        this.cadastroTransacaoComponent = new CadastroTransacaoComponent(despesaService, despesaEntity, afterPay);
 
         setWidthFull();
         getStyle().set("padding", "5px");
@@ -41,11 +41,11 @@ public class CardTransacaoComponent extends Div {
         var layout = new VerticalLayout();
         layout.setSizeFull();
 
-        var badge = new Span(despesasEntity.isPago() ? "Pago" : "Não Pago");
-        badge.getElement().getThemeList().add("badge small " + (despesasEntity.isPago() ? "success" : "error"));
+        var badge = new Span(despesaEntity.isPago() ? "Pago" : "Não Pago");
+        badge.getElement().getThemeList().add("badge small " + (despesaEntity.isPago() ? "success" : "error"));
 
         layout.add(
-                new H2(despesasEntity.getNome()),
+                new H2(despesaEntity.getNome()),
                 badge,
                 HTMLHelper.getHR(),
                 getExpenseResume(),
@@ -69,7 +69,7 @@ public class CardTransacaoComponent extends Div {
         grid.addColumn(CardDespesaModel::getCompetencyDate).setHeader("Competência");
         grid.addColumn(CardDespesaModel::getValueDisplay).setHeader("Valor").setKey("value");
 
-        var cardsExpenses = cardTrasacaoService.getModels(despesasEntity);
+        var cardsExpenses = cardTrasacaoService.getModels(despesaEntity);
         grid.setItems(cardsExpenses);
         grid.getColumnByKey("value")
                 .setFooter(cardTrasacaoService.getFooterValue(cardsExpenses));

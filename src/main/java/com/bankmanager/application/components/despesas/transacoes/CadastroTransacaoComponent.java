@@ -1,7 +1,7 @@
 package com.bankmanager.application.components.despesas.transacoes;
 
 import com.bankmanager.application.components.dialogs.CustomDialog;
-import com.bankmanager.application.entities.despesas.DespesasEntity;
+import com.bankmanager.application.entities.despesas.DespesaEntity;
 import com.bankmanager.application.helpers.BinderHelper;
 import com.bankmanager.application.helpers.ConvertHelper;
 import com.bankmanager.application.helpers.NotificationHelper;
@@ -20,10 +20,10 @@ import java.util.Objects;
 
 public class CadastroTransacaoComponent extends CustomDialog {
 
-    private final DespesasEntity despesa;
+    private final DespesaEntity despesa;
     private final Binder<ValueModel> binder = new Binder<>();
 
-    public CadastroTransacaoComponent(DespesaService despesaService, DespesasEntity despesa, Runnable afterPay) {
+    public CadastroTransacaoComponent(DespesaService despesaService, DespesaEntity despesa, Runnable afterPay) {
         super("Pagar despesa", "Confirmar");
 
         this.despesa = despesa;

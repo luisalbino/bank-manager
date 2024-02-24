@@ -1,7 +1,7 @@
 package com.bankmanager.application.components.despesas;
 
 import com.bankmanager.application.components.dialogs.CustomDialog;
-import com.bankmanager.application.entities.despesas.DespesasEntity;
+import com.bankmanager.application.entities.despesas.DespesaEntity;
 import com.bankmanager.application.enums.despesas.TipoDespesaEnum;
 import com.bankmanager.application.helpers.BinderHelper;
 import com.bankmanager.application.helpers.NotificationHelper;
@@ -17,7 +17,7 @@ import com.vaadin.flow.data.binder.Binder;
 
 public class CadastroDespesaComponent extends CustomDialog {
 
-    private final Binder<DespesasEntity> binder = new Binder<>();
+    private final Binder<DespesaEntity> binder = new Binder<>();
 
     public CadastroDespesaComponent(DespesaService despesaService, Runnable afterSaveFunc) {
         super("Nova despesa");
@@ -35,20 +35,20 @@ public class CadastroDespesaComponent extends CustomDialog {
         var campoNome = new TextField("Nome");
         binder.forField(campoNome)
                 .withValidator(new StringNotBlankValidator())
-                .bind(DespesasEntity::getNome, DespesasEntity::setNome);
+                .bind(DespesaEntity::getNome, DespesaEntity::setNome);
 
         var campoValor = new NumberField("Valor (Sugestão)");
         campoValor.setTooltipText("Valor sugerido ao pagar uma despesa!");
         binder.forField(campoValor)
                 .withValidator(new ObjectNotNullValidador())
-                .bind(DespesasEntity::getValor, DespesasEntity::setValor);
+                .bind(DespesaEntity::getValor, DespesaEntity::setValor);
 
         var campoTipo = new ComboBox<TipoDespesaEnum>("Tipo de despesas");
         campoTipo.setItems(TipoDespesaEnum.values());
         campoTipo.setItemLabelGenerator(TipoDespesaEnum::getDescricao);
         binder.forField(campoTipo)
                 .withValidator(new ObjectNotNullValidador())
-                .bind(DespesasEntity::getTipo, DespesasEntity::setTipo);
+                .bind(DespesaEntity::getTipo, DespesaEntity::setTipo);
 
         var layout = new VerticalLayout();
         layout.setSizeFull();
@@ -60,7 +60,11 @@ public class CadastroDespesaComponent extends CustomDialog {
 
     @Override
     public void open() {
-        BinderHelper.setAndClearFields(new DespesasEntity(), binder);
+        BinderHelper.setAndClearFields(new DespesaEntity(), binder);
         super.open();
+    }
+
+    public void edit(DespesaEntity despesa) {
+        BinderHelper.setAndClearFields(new DespesaEntity(), binder);
     }
 }
