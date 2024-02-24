@@ -43,6 +43,7 @@ public class CardDespesaComponent extends Div {
         layout.setSizeFull();
 
         var badge = new Span(despesa.isPago() ? "Pago" : "Não Pago");
+        badge.setVisible(despesa.isNotRecorrente());
         badge.getElement().getThemeList().add("badge small " + (despesa.isPago() ? "success" : "error"));
 
         layout.add(

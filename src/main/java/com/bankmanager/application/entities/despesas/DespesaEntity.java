@@ -37,15 +37,27 @@ public class DespesaEntity extends AbstractEntity {
     private Collection<TransacaoEntity> transacoes;
 
     public boolean isPago() {
-        var maxDate = transacoes.stream()
-                .map(TransacaoEntity::getDataReferencia)
-                .filter(Objects::nonNull)
-                .max(LocalDateTime::compareTo)
-                .orElse(null);
+        return isAnual() ? isPagoAnual() : this.isPagoMensal();
+    }
+
+    public boolean isPagoAnual() {
+        var resultado = false;
+        var maiorDataPagamento = getMaiorDataPagamento();
+        if (Objects.nonNull(maiorDataPagamento)) {
+            var lastMonthPaid = LocalDateTimeHelper.getYearStr(maiorDataPagamento);
+            var thisMonth = LocalDateTimeHelper.getYearStr(LocalDateTime.now());
+            resultado = lastMonthPaid.equals(thisMonth);
+        }
+
+        return resultado;
+    }
+
+    public boolean isPagoMensal() {
+        var maiorDataPagamento = getMaiorDataPagamento();
 
         var result = false;
-        if (Objects.nonNull(maxDate)) {
-            var lastMonthPaid = LocalDateTimeHelper.getMonthStr(maxDate);
+        if (Objects.nonNull(maiorDataPagamento)) {
+            var lastMonthPaid = LocalDateTimeHelper.getMonthStr(maiorDataPagamento);
             var thisMonth = LocalDateTimeHelper.getMonthStr(LocalDateTime.now());
             result = lastMonthPaid.equals(thisMonth);
         }
@@ -53,12 +65,16 @@ public class DespesaEntity extends AbstractEntity {
         return result;
     }
 
-    public boolean isNotRecorrente() {
-        return !TipoDespesaEnum.RECORRENTE.equals(this.getTipo());
+    public LocalDateTime getMaiorDataPagamento() {
+        return transacoes.stream()
+                .map(TransacaoEntity::getDataReferencia)
+                .filter(Objects::nonNull)
+                .max(LocalDateTime::compareTo)
+                .orElse(null);
     }
 
-    public boolean isMensal() {
-        return TipoDespesaEnum.MENSAL.equals(this.getTipo());
+    public boolean isNotRecorrente() {
+        return !TipoDespesaEnum.RECORRENTE.equals(this.getTipo());
     }
 
     public boolean isAnual() {

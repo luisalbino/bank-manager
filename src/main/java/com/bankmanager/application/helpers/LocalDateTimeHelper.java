@@ -14,6 +14,10 @@ public class LocalDateTimeHelper {
         return Objects.isNull(localDateTime) ? "" : localDateTime.format(DateTimeFormatter.ofPattern("MM"));
     }
 
+    public static String getYearStr(LocalDateTime localDateTime) {
+        return Objects.isNull(localDateTime) ? "" : localDateTime.format(DateTimeFormatter.ofPattern("yyyy"));
+    }
+
     public static String formatDDMMYYYY(LocalDateTime localDateTime) {
         return localDateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
