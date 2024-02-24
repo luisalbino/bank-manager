@@ -20,7 +20,7 @@ public class TransacoesEntity extends AbstractEntity {
     @Column(nullable = false)
     private LocalDateTime dataPagamento;
 
-    private LocalDateTime mesReferencia;
+    private LocalDateTime dataReferencia;
 
     @Column(nullable = false)
     private Double valor;

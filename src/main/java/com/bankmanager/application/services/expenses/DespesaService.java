@@ -32,7 +32,7 @@ public class DespesaService extends AbstractService<DespesasEntity, DespesasRepo
         var cashFlow = new TransacoesEntity();
         cashFlow.setDescricao("Despesa " + expense.getNome());
         cashFlow.setDataPagamento(paymentDate.atStartOfDay());
-        cashFlow.setMesReferencia(competencyDate.atStartOfDay());
+        cashFlow.setDataReferencia(competencyDate.atStartOfDay());
         cashFlow.setValor(value);
         cashFlow.setDespesa(expense);
         cashFlowService.save(cashFlow);

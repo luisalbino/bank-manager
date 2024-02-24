@@ -1,4 +1,4 @@
-package com.bankmanager.application.components.despesas;
+package com.bankmanager.application.components.despesas.transacoes;
 
 import com.bankmanager.application.components.dialogs.CustomDialog;
 import com.bankmanager.application.entities.despesas.DespesasEntity;
@@ -18,15 +18,15 @@ import java.time.LocalDate;
 import java.util.Locale;
 import java.util.Objects;
 
-public class ConfirmExpensePaymentComponent extends CustomDialog {
+public class CadastroTransacaoComponent extends CustomDialog {
 
-    private final DespesasEntity expense;
+    private final DespesasEntity despesa;
     private final Binder<ValueModel> binder = new Binder<>();
 
-    public ConfirmExpensePaymentComponent(DespesaService despesaService, DespesasEntity expense, Runnable afterPay) {
+    public CadastroTransacaoComponent(DespesaService despesaService, DespesasEntity despesa, Runnable afterPay) {
         super("Pagar despesa", "Confirmar");
 
-        this.expense = expense;
+        this.despesa = despesa;
 
         var fieldPaymentDate = new DatePicker("Data do pagamento");
         fieldPaymentDate.setLocale(new Locale("pt", "BR"));
@@ -59,7 +59,7 @@ public class ConfirmExpensePaymentComponent extends CustomDialog {
 
         addConfirmAction(() -> {
             if (binder.isValid()) {
-                despesaService.pay(expense, binder.getBean().getPaymentDate(), binder.getBean().getCompetencyDate(), binder.getBean().getValue());
+                despesaService.pay(despesa, binder.getBean().getPaymentDate(), binder.getBean().getCompetencyDate(), binder.getBean().getValue());
                 afterPay.run();
                 close();
                 NotificationHelper.success("Despesa paga com sucesso!");
@@ -69,7 +69,7 @@ public class ConfirmExpensePaymentComponent extends CustomDialog {
 
     @Override
     public void open() {
-        BinderHelper.setAndClearFields(new ValueModel(ConvertHelper.toDouble(expense.getValor(), 0D),  LocalDate.now(), LocalDate.now()), binder);
+        BinderHelper.setAndClearFields(new ValueModel(ConvertHelper.toDouble(despesa.getValor(), 0D),  LocalDate.now(), LocalDate.now()), binder);
         super.open();
     }
 

@@ -2,9 +2,13 @@ package com.bankmanager.application.components.despesas;
 
 import com.bankmanager.application.components.dialogs.CustomDialog;
 import com.bankmanager.application.entities.despesas.DespesasEntity;
+import com.bankmanager.application.enums.despesas.TipoDespesaEnum;
 import com.bankmanager.application.helpers.BinderHelper;
 import com.bankmanager.application.helpers.NotificationHelper;
+import com.bankmanager.application.helpers.validators.ObjectNotNullValidador;
+import com.bankmanager.application.helpers.validators.StringNotBlankValidator;
 import com.bankmanager.application.services.expenses.DespesaService;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
@@ -14,11 +18,11 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 
-public class NovaDespesaComponent extends CustomDialog {
+public class CadastroDespesaComponent extends CustomDialog {
 
     private final Binder<DespesasEntity> binder = new Binder<>();
 
-    public NovaDespesaComponent(DespesaService despesaService, Runnable afterCreating) {
+    public CadastroDespesaComponent(DespesaService despesaService, Runnable afterCreating) {
         super("Nova despesa");
 
         addConfirmAction(() -> {
@@ -33,13 +37,19 @@ public class NovaDespesaComponent extends CustomDialog {
 
         var campoNome = new TextField("Nome");
         binder.forField(campoNome)
-                .withValidator(StringUtils::isNotBlank, "Informe um nome!")
+                .withValidator(new StringNotBlankValidator())
                 .bind(DespesasEntity::getNome, DespesasEntity::setNome);
 
         var campoValor = new NumberField("Valor (Sugestão)");
+        campoValor.setTooltipText("Valor que será sugerido sempre que a despesa for paga!");
         binder.forField(campoValor)
-                .withValidator(Objects::nonNull, "Informe uma sugestão de valor a ser pago!")
+                .withValidator(new ObjectNotNullValidador())
                 .bind(DespesasEntity::getValor, DespesasEntity::setValor);
+
+        var campoTipo = new ComboBox<TipoDespesaEnum>();
+        binder.forField(campoTipo)
+                .withValidator(new ObjectNotNullValidador())
+                .bind(DespesasEntity::getTipo, DespesasEntity::setTipo);
 
         var layout = new VerticalLayout();
         layout.setSizeFull();

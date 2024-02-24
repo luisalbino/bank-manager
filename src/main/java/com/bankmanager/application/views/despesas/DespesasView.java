@@ -1,10 +1,10 @@
 package com.bankmanager.application.views.despesas;
 
 import com.bankmanager.application.components.buttons.CustomButton;
-import com.bankmanager.application.components.despesas.NovaDespesaComponent;
+import com.bankmanager.application.components.despesas.CadastroDespesaComponent;
 import com.bankmanager.application.components.despesas.ConsultaDespesaComponent;
 import com.bankmanager.application.helpers.HTMLHelper;
-import com.bankmanager.application.services.expenses.CardExpenseService;
+import com.bankmanager.application.services.expenses.CardTrasacaoService;
 import com.bankmanager.application.services.expenses.CashFlowService;
 import com.bankmanager.application.services.expenses.DespesaService;
 import com.bankmanager.application.views.MainLayout;
@@ -20,12 +20,12 @@ import jakarta.annotation.security.PermitAll;
 @Route(value = "", layout = MainLayout.class)
 public class DespesasView extends VerticalLayout {
 
-    private final NovaDespesaComponent novaDespesaComponent;
+    private final CadastroDespesaComponent cadastroDespesaComponent;
     private final ConsultaDespesaComponent consultaDespesaComponent;
 
-    public DespesasView(DespesaService despesaService, CashFlowService cashFlowService, CardExpenseService cardExpenseService) {
-        consultaDespesaComponent = new ConsultaDespesaComponent(despesaService, cashFlowService, cardExpenseService);
-        novaDespesaComponent = new NovaDespesaComponent(despesaService, consultaDespesaComponent::carregarCards);
+    public DespesasView(DespesaService despesaService, CashFlowService cashFlowService, CardTrasacaoService cardTrasacaoService) {
+        consultaDespesaComponent = new ConsultaDespesaComponent(despesaService, cashFlowService, cardTrasacaoService);
+        cadastroDespesaComponent = new CadastroDespesaComponent(despesaService, consultaDespesaComponent::carregarCards);
         buildUI();
     }
 
@@ -35,7 +35,7 @@ public class DespesasView extends VerticalLayout {
         layout.add(
                 getButtonNewExpense(),
                 HTMLHelper.getHR(),
-                novaDespesaComponent,
+                cadastroDespesaComponent,
                 consultaDespesaComponent
         );
 
@@ -45,7 +45,7 @@ public class DespesasView extends VerticalLayout {
     private Component getButtonNewExpense() {
         var result = new CustomButton("Nova despesa");
         result.setIcon(VaadinIcon.PLUS.create());
-        result.addClickListener(event -> novaDespesaComponent.open());
+        result.addClickListener(event -> cadastroDespesaComponent.open());
 
         return result;
     }

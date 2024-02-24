@@ -18,7 +18,7 @@ public class CashFlowService extends AbstractService<TransacoesEntity, Transacoe
     public void update(Long id, LocalDate competencyDate) {
         var cashFlow = this.repository.findById(id).orElse(null);
         if (Objects.nonNull(cashFlow)) {
-            cashFlow.setMesReferencia(competencyDate.atStartOfDay());
+            cashFlow.setDataReferencia(competencyDate.atStartOfDay());
             this.save(cashFlow);
         }
     }

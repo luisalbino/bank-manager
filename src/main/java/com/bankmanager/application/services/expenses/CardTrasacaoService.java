@@ -8,15 +8,12 @@ import com.bankmanager.application.models.despesas.CardDespesaModel;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
 @Service
-public class CardExpenseService {
-
-    private final static DateTimeFormatter ISO_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+public class CardTrasacaoService {
 
     public Collection<CardDespesaModel> getModels(DespesasEntity expense) {
         var result = new ArrayList<CardDespesaModel>();
@@ -28,8 +25,8 @@ public class CardExpenseService {
                 cardExense.setValueDisplay(CurrencyHelper.convert(cashFlow.getValor()));
                 cardExense.setValue(ConvertHelper.toDouble(cashFlow.getValor(), 0D));
 
-                if (Objects.nonNull(cashFlow.getMesReferencia())) {
-                    cardExense.setCompetencyDate(LocalDateTimeHelper.getDateStr(cashFlow.getMesReferencia()));
+                if (Objects.nonNull(cashFlow.getDataReferencia())) {
+                    cardExense.setCompetencyDate(LocalDateTimeHelper.getDateStr(cashFlow.getDataReferencia()));
                 }
                 cardExense.setPaymentDate(LocalDateTimeHelper.getDateStr(cashFlow.getDataPagamento()));
                 result.add(cardExense);
