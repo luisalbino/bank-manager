@@ -64,7 +64,7 @@ public class CadastroTransacaoComponent extends CustomDialog {
                 cardTrasacaoService.pagarOrEditar(despesa, binder.getBean());
                 afterPay.run();
                 close();
-                NotificationHelper.success("Despesa paga com sucesso!");
+                NotificationHelper.success("Despesa paga/editada com sucesso!");
             }
         });
     }
