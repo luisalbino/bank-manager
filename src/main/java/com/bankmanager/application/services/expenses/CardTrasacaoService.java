@@ -32,11 +32,16 @@ public class CardTrasacaoService {
                 trasacaoModel.setValorStr(CurrencyHelper.getMoney(trasacao.getValor()));
 
                 if (Objects.nonNull(trasacao.getDataReferencia())) {
-                    trasacaoModel.setDataCompetencia(LocalDateTimeHelper.getDateStr(trasacao.getDataReferencia()));
+                    var dataCompetencia = LocalDateTimeHelper.formatMMYYYY(trasacao.getDataReferencia());
+                    if (despesa.isAnual()) {
+                        dataCompetencia = LocalDateTimeHelper.formatYYYY(trasacao.getDataReferencia());
+                    }
+
+                    trasacaoModel.setDataCompetencia(dataCompetencia);
                 }
 
                 trasacaoModel.setDataPagamento(trasacao.getDataPagamento());
-                trasacaoModel.setDataPagamentoStr(LocalDateTimeHelper.getDateStr(trasacao.getDataPagamento()));
+                trasacaoModel.setDataPagamentoStr(LocalDateTimeHelper.formatDDMMYYYY(trasacao.getDataPagamento()));
 
                 if (Objects.isNull(valorUltimoPagamento)) {
                     valorUltimoPagamento = trasacao.getValor();

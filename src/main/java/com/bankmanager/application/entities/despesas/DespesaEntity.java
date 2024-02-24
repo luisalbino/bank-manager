@@ -54,4 +54,16 @@ public class DespesaEntity extends AbstractEntity {
 
         return result;
     }
+
+    public boolean isRecorrente() {
+        return TipoDespesaEnum.RECORRENTE.equals(this.getTipo());
+    }
+
+    public boolean isMensal() {
+        return TipoDespesaEnum.MENSAL.equals(this.getTipo());
+    }
+
+    public boolean isAnual() {
+        return TipoDespesaEnum.ANUAL.equals(this.getTipo());
+    }
 }

@@ -59,7 +59,8 @@ public class CardDespesaComponent extends Div {
     }
 
     private Component getColunaAcoes(TrasacaoModel trasacaoModel) {
-        var botaoEditar = new CustomButton("Edit");
+        var botaoEditar = new CustomButton(VaadinIcon.PENCIL.create());
+        botaoEditar.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         botaoEditar.addClickListener(event -> {
 
         });
@@ -82,8 +83,8 @@ public class CardDespesaComponent extends Div {
     private Component getExpenseResume() {
         var grid = new Grid<TrasacaoModel>();
         grid.addComponentColumn(this::getColunaAcoes).setHeader("Ações").setAutoWidth(true).setFlexGrow(0);
-        grid.addColumn(TrasacaoModel::getDataPagamentoStr).setHeader("Pagamento");
-        grid.addColumn(TrasacaoModel::getDataCompetencia).setHeader("Competência");
+        grid.addColumn(TrasacaoModel::getDataPagamentoStr).setHeader("Data Pagamento");
+        grid.addColumn(TrasacaoModel::getDataCompetencia).setHeader("Data Competência").setVisible(!this.despesa.isRecorrente());
         grid.addColumn(TrasacaoModel::getValorStr).setHeader("Valor").setKey("valor");
         grid.addComponentColumn(this::getColunaPerformance).setHeader("Performance").setKey("performance");
 
