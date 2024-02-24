@@ -5,8 +5,7 @@ import com.bankmanager.application.entities.user.UsuariosEntity;
 import com.bankmanager.application.enums.despesas.TipoDespesaEnum;
 import com.bankmanager.application.helpers.LocalDateTimeHelper;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -14,21 +13,26 @@ import java.util.Objects;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "despesas")
 public class DespesasEntity extends AbstractEntity {
 
     @Column(nullable = false)
     private String nome;
 
+    @Builder.Default
     @Column(nullable = false)
-    private Double valor;
+    private Double valor = 0D;
+
+    @Builder.Default
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TipoDespesaEnum tipo = TipoDespesaEnum.MENSAL;
 
     @ManyToOne(optional = false)
     private UsuariosEntity usuario;
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private TipoDespesaEnum tipo;
 
     @OneToMany(mappedBy = "despesa", fetch = FetchType.EAGER)
     private Collection<TransacoesEntity> transacoes;

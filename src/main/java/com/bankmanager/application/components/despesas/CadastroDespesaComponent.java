@@ -19,14 +19,14 @@ public class CadastroDespesaComponent extends CustomDialog {
 
     private final Binder<DespesasEntity> binder = new Binder<>();
 
-    public CadastroDespesaComponent(DespesaService despesaService, Runnable afterCreating) {
+    public CadastroDespesaComponent(DespesaService despesaService, Runnable afterSaveFunc) {
         super("Nova despesa");
 
         addConfirmAction(() -> {
             binder.validate();
             if (binder.isValid()) {
                 despesaService.create(binder.getBean());
-                afterCreating.run();
+                afterSaveFunc.run();
                 NotificationHelper.success("Despesa criada com sucesso!");
                 close();
             }
@@ -38,12 +38,14 @@ public class CadastroDespesaComponent extends CustomDialog {
                 .bind(DespesasEntity::getNome, DespesasEntity::setNome);
 
         var campoValor = new NumberField("Valor (Sugestão)");
-        campoValor.setTooltipText("Valor que será sugerido sempre que a despesa for paga!");
+        campoValor.setTooltipText("Valor sugerido ao pagar uma despesa!");
         binder.forField(campoValor)
                 .withValidator(new ObjectNotNullValidador())
                 .bind(DespesasEntity::getValor, DespesasEntity::setValor);
 
-        var campoTipo = new ComboBox<TipoDespesaEnum>();
+        var campoTipo = new ComboBox<TipoDespesaEnum>("Tipo de despesas");
+        campoTipo.setItems(TipoDespesaEnum.values());
+        campoTipo.setItemLabelGenerator(TipoDespesaEnum::getDescricao);
         binder.forField(campoTipo)
                 .withValidator(new ObjectNotNullValidador())
                 .bind(DespesasEntity::getTipo, DespesasEntity::setTipo);
@@ -51,7 +53,7 @@ public class CadastroDespesaComponent extends CustomDialog {
         var layout = new VerticalLayout();
         layout.setSizeFull();
         layout.setJustifyContentMode(FlexComponent.JustifyContentMode.CENTER);
-        layout.add(campoNome, campoValor);
+        layout.add(campoNome, campoValor, campoTipo);
 
         add(layout);
     }
