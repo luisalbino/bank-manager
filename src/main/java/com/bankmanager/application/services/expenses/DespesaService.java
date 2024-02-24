@@ -15,12 +15,12 @@ import java.util.Comparator;
 public class DespesaService extends AbstractService<DespesaEntity, DespesasRepository> {
 
     private final UserService userService;
-    private final CashFlowService cashFlowService;
+    private final TransacaoService transacaoService;
 
-    protected DespesaService(DespesasRepository repository, UserService userService, CashFlowService cashFlowService) {
+    protected DespesaService(DespesasRepository repository, UserService userService, TransacaoService transacaoService) {
         super(repository);
         this.userService = userService;
-        this.cashFlowService = cashFlowService;
+        this.transacaoService = transacaoService;
     }
 
     public void create(DespesaEntity expense) {
@@ -35,7 +35,7 @@ public class DespesaService extends AbstractService<DespesaEntity, DespesasRepos
         cashFlow.setDataReferencia(competencyDate.atStartOfDay());
         cashFlow.setValor(value);
         cashFlow.setDespesa(expense);
-        cashFlowService.save(cashFlow);
+        transacaoService.save(cashFlow);
 
         this.save(expense);
     }

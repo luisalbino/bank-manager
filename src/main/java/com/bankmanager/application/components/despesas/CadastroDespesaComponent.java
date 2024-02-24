@@ -65,6 +65,7 @@ public class CadastroDespesaComponent extends CustomDialog {
     }
 
     public void edit(DespesaEntity despesa) {
-        BinderHelper.setAndClearFields(new DespesaEntity(), binder);
+        BinderHelper.setAndClearFields(despesa, binder);
+        super.open();
     }
 }

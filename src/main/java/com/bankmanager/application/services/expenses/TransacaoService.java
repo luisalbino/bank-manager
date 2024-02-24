@@ -9,16 +9,16 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Service
-public class CashFlowService extends AbstractService<TransacaoEntity, TransacoesRepository> {
+public class TransacaoService extends AbstractService<TransacaoEntity, TransacoesRepository> {
 
-    protected CashFlowService(TransacoesRepository repository) {
+    protected TransacaoService(TransacoesRepository repository) {
         super(repository);
     }
 
-    public void update(Long id, LocalDate competencyDate) {
+    public void update(Long id, LocalDate dataCompetencia) {
         var cashFlow = this.repository.findById(id).orElse(null);
         if (Objects.nonNull(cashFlow)) {
-            cashFlow.setDataReferencia(competencyDate.atStartOfDay());
+            cashFlow.setDataReferencia(dataCompetencia.atStartOfDay());
             this.save(cashFlow);
         }
     }

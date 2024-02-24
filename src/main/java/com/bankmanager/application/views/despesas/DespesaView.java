@@ -5,7 +5,7 @@ import com.bankmanager.application.components.despesas.CadastroDespesaComponent;
 import com.bankmanager.application.components.despesas.ConsultaDespesaComponent;
 import com.bankmanager.application.helpers.HTMLHelper;
 import com.bankmanager.application.services.expenses.CardTrasacaoService;
-import com.bankmanager.application.services.expenses.CashFlowService;
+import com.bankmanager.application.services.expenses.TransacaoService;
 import com.bankmanager.application.services.expenses.DespesaService;
 import com.bankmanager.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
@@ -18,13 +18,13 @@ import jakarta.annotation.security.PermitAll;
 @PermitAll
 @PageTitle("Despesas")
 @Route(value = "", layout = MainLayout.class)
-public class DespesasView extends VerticalLayout {
+public class DespesaView extends VerticalLayout {
 
     private final CadastroDespesaComponent cadastroDespesaComponent;
     private final ConsultaDespesaComponent consultaDespesaComponent;
 
-    public DespesasView(DespesaService despesaService, CashFlowService cashFlowService, CardTrasacaoService cardTrasacaoService) {
-        consultaDespesaComponent = new ConsultaDespesaComponent(despesaService, cashFlowService, cardTrasacaoService);
+    public DespesaView(DespesaService despesaService, TransacaoService transacaoService, CardTrasacaoService cardTrasacaoService) {
+        consultaDespesaComponent = new ConsultaDespesaComponent(despesaService, transacaoService, cardTrasacaoService);
         cadastroDespesaComponent = new CadastroDespesaComponent(despesaService, consultaDespesaComponent::carregarCards);
         buildUI();
     }

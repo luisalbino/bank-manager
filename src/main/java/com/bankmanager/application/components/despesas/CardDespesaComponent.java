@@ -1,13 +1,15 @@
-package com.bankmanager.application.components.despesas.transacoes;
+package com.bankmanager.application.components.despesas;
 
 import com.bankmanager.application.components.buttons.CustomButton;
+import com.bankmanager.application.components.despesas.transacoes.CadastroTransacaoComponent;
 import com.bankmanager.application.entities.despesas.DespesaEntity;
 import com.bankmanager.application.helpers.HTMLHelper;
 import com.bankmanager.application.models.despesas.CardDespesaModel;
 import com.bankmanager.application.services.expenses.CardTrasacaoService;
-import com.bankmanager.application.services.expenses.CashFlowService;
+import com.bankmanager.application.services.expenses.TransacaoService;
 import com.bankmanager.application.services.expenses.DespesaService;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
@@ -16,18 +18,16 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
-public class CardTransacaoComponent extends Div {
+public class CardDespesaComponent extends Div {
 
-    private final DespesaEntity despesaEntity;
-
+    private final DespesaEntity despesa;
     private final CardTrasacaoService cardTrasacaoService;
-
     private final CadastroTransacaoComponent cadastroTransacaoComponent;
 
-    public CardTransacaoComponent(DespesaEntity despesaEntity, DespesaService despesaService, CashFlowService cashFlowService, CardTrasacaoService cardTrasacaoService, Runnable afterPay) {
-        this.despesaEntity = despesaEntity;
+    public CardDespesaComponent(DespesaEntity despesa, DespesaService service, CardTrasacaoService cardTrasacaoService, Runnable afterPagamentoFunc) {
+        this.despesa = despesa;
         this.cardTrasacaoService = cardTrasacaoService;
-        this.cadastroTransacaoComponent = new CadastroTransacaoComponent(despesaService, despesaEntity, afterPay);
+        this.cadastroTransacaoComponent = new CadastroTransacaoComponent(service, despesa, afterPagamentoFunc);
 
         setWidthFull();
         getStyle().set("padding", "5px");
@@ -41,11 +41,11 @@ public class CardTransacaoComponent extends Div {
         var layout = new VerticalLayout();
         layout.setSizeFull();
 
-        var badge = new Span(despesaEntity.isPago() ? "Pago" : "Não Pago");
-        badge.getElement().getThemeList().add("badge small " + (despesaEntity.isPago() ? "success" : "error"));
+        var badge = new Span(despesa.isPago() ? "Pago" : "Não Pago");
+        badge.getElement().getThemeList().add("badge small " + (despesa.isPago() ? "success" : "error"));
 
         layout.add(
-                new H2(despesaEntity.getNome()),
+                new H2(despesa.getNome()),
                 badge,
                 HTMLHelper.getHR(),
                 getExpenseResume(),
@@ -69,7 +69,7 @@ public class CardTransacaoComponent extends Div {
         grid.addColumn(CardDespesaModel::getCompetencyDate).setHeader("Competência");
         grid.addColumn(CardDespesaModel::getValueDisplay).setHeader("Valor").setKey("value");
 
-        var cardsExpenses = cardTrasacaoService.getModels(despesaEntity);
+        var cardsExpenses = cardTrasacaoService.getModels(despesa);
         grid.setItems(cardsExpenses);
         grid.getColumnByKey("value")
                 .setFooter(cardTrasacaoService.getFooterValue(cardsExpenses));
@@ -82,11 +82,14 @@ public class CardTransacaoComponent extends Div {
     }
 
     private Component getButtonPaid() {
+        var botaoEditar = new CustomButton("Editar");
+
         var buttonPaid = new CustomButton("Pagar");
+        buttonPaid.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         buttonPaid.addClickListener(event -> cadastroTransacaoComponent.open());
 
         var layout = new HorizontalLayout();
-        layout.add(buttonPaid);
+        layout.add(botaoEditar, buttonPaid);
         layout.setWidth("100%");
         layout.setAlignItems(FlexComponent.Alignment.END);
         layout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
