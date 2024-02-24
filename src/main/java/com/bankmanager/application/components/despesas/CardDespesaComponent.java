@@ -1,12 +1,12 @@
 package com.bankmanager.application.components.despesas;
 
+import ch.qos.logback.classic.pattern.RelativeTimeConverter;
 import com.bankmanager.application.components.buttons.CustomButton;
 import com.bankmanager.application.components.despesas.transacoes.CadastroTransacaoComponent;
 import com.bankmanager.application.entities.despesas.DespesaEntity;
 import com.bankmanager.application.helpers.HTMLHelper;
-import com.bankmanager.application.models.despesas.CardDespesaModel;
+import com.bankmanager.application.models.despesas.TrasacaoModel;
 import com.bankmanager.application.services.expenses.CardTrasacaoService;
-import com.bankmanager.application.services.expenses.TransacaoService;
 import com.bankmanager.application.services.expenses.DespesaService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -14,9 +14,11 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.shared.Tooltip;
 
 public class CardDespesaComponent extends Div {
 
@@ -45,7 +47,7 @@ public class CardDespesaComponent extends Div {
         badge.getElement().getThemeList().add("badge small " + (despesa.isPago() ? "success" : "error"));
 
         layout.add(
-                new H2(despesa.getNome()),
+                new H2(despesa.getNome() + " - " + despesa.getTipo().getDescricao() ),
                 badge,
                 HTMLHelper.getHR(),
                 getExpenseResume(),
@@ -56,22 +58,38 @@ public class CardDespesaComponent extends Div {
         add(layout);
     }
 
-    private Component getExpenseResume() {
-        var grid = new Grid<CardDespesaModel>();
-        grid.addComponentColumn((expenseModel) -> {
-            var buttonEdit = new CustomButton("Edit");
-            buttonEdit.addClickListener(event -> {
-            });
+    private Component getColunaAcoes(TrasacaoModel trasacaoModel) {
+        var botaoEditar = new CustomButton("Edit");
+        botaoEditar.addClickListener(event -> {
 
-            return buttonEdit;
         });
-        grid.addColumn(CardDespesaModel::getPaymentDate).setHeader("Pagamento");
-        grid.addColumn(CardDespesaModel::getCompetencyDate).setHeader("Competência");
-        grid.addColumn(CardDespesaModel::getValueDisplay).setHeader("Valor").setKey("value");
+
+        return botaoEditar;
+    }
+
+    private Component getColunaPerformance(TrasacaoModel trasacaoModel) {
+        var layout = new HorizontalLayout();
+        layout.add(trasacaoModel.getIconePerformance());
+        layout.add(new Span(trasacaoModel.getPerformance()));
+
+        Tooltip.forComponent(layout)
+            .withText(trasacaoModel.getTooltipPerformance())
+            .withPosition(Tooltip.TooltipPosition.END_BOTTOM);
+
+        return layout;
+    }
+
+    private Component getExpenseResume() {
+        var grid = new Grid<TrasacaoModel>();
+        grid.addComponentColumn(this::getColunaAcoes).setHeader("Ações").setAutoWidth(true).setFlexGrow(0);
+        grid.addColumn(TrasacaoModel::getDataPagamentoStr).setHeader("Pagamento");
+        grid.addColumn(TrasacaoModel::getDataCompetencia).setHeader("Competência");
+        grid.addColumn(TrasacaoModel::getValorStr).setHeader("Valor").setKey("valor");
+        grid.addComponentColumn(this::getColunaPerformance).setHeader("Performance").setKey("performance");
 
         var cardsExpenses = cardTrasacaoService.getModels(despesa);
         grid.setItems(cardsExpenses);
-        grid.getColumnByKey("value")
+        grid.getColumnByKey("valor")
                 .setFooter(cardTrasacaoService.getFooterValue(cardsExpenses));
 
         var layout = new VerticalLayout();
@@ -82,14 +100,12 @@ public class CardDespesaComponent extends Div {
     }
 
     private Component getButtonPaid() {
-        var botaoEditar = new CustomButton("Editar");
-
         var buttonPaid = new CustomButton("Pagar");
         buttonPaid.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         buttonPaid.addClickListener(event -> cadastroTransacaoComponent.open());
 
         var layout = new HorizontalLayout();
-        layout.add(botaoEditar, buttonPaid);
+        layout.add(buttonPaid);
         layout.setWidth("100%");
         layout.setAlignItems(FlexComponent.Alignment.END);
         layout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);

@@ -4,12 +4,13 @@ import com.bankmanager.application.entities.AbstractEntity;
 import com.bankmanager.application.entities.user.UsuariosEntity;
 import com.bankmanager.application.enums.despesas.TipoDespesaEnum;
 import com.bankmanager.application.helpers.LocalDateTimeHelper;
+import com.bankmanager.application.models.despesas.TrasacaoModel;
 import jakarta.persistence.*;
 import lombok.*;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Objects;
+import java.util.*;
 
 @Getter
 @Setter

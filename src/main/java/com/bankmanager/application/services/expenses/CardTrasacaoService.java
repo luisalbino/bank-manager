@@ -1,43 +1,72 @@
 package com.bankmanager.application.services.expenses;
 
 import com.bankmanager.application.entities.despesas.DespesaEntity;
+import com.bankmanager.application.entities.despesas.TransacaoEntity;
+import com.bankmanager.application.enums.despesas.transacoes.TipoPerformanceEnum;
 import com.bankmanager.application.helpers.ConvertHelper;
 import com.bankmanager.application.helpers.CurrencyHelper;
 import com.bankmanager.application.helpers.LocalDateTimeHelper;
-import com.bankmanager.application.models.despesas.CardDespesaModel;
+import com.bankmanager.application.models.despesas.TrasacaoModel;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Objects;
 
 @Service
 public class CardTrasacaoService {
 
-    public Collection<CardDespesaModel> getModels(DespesaEntity expense) {
-        var result = new ArrayList<CardDespesaModel>();
+    public Collection<TrasacaoModel> getModels(DespesaEntity despesa) {
+        var result = new ArrayList<TrasacaoModel>();
 
-        if (CollectionUtils.isNotEmpty(expense.getTransacoes())) {
-            for (var cashFlow : expense.getTransacoes())  {
-                var cardExense = new CardDespesaModel();
-                cardExense.setIdExpense(cashFlow.getId());
-                cardExense.setValueDisplay(CurrencyHelper.convert(cashFlow.getValor()));
-                cardExense.setValue(ConvertHelper.toDouble(cashFlow.getValor(), 0D));
+        if (CollectionUtils.isNotEmpty(despesa.getTransacoes())) {
+            Double valorUltimoPagamento = null;
 
-                if (Objects.nonNull(cashFlow.getDataReferencia())) {
-                    cardExense.setCompetencyDate(LocalDateTimeHelper.getDateStr(cashFlow.getDataReferencia()));
+            var trasacoes = despesa.getTransacoes().stream().sorted(Comparator.comparing(TransacaoEntity::getDataPagamento)).toList();
+            for (var trasacao : trasacoes)  {
+                var trasacaoModel = new TrasacaoModel();
+                trasacaoModel.setId(trasacao.getId());
+                trasacaoModel.setValor(trasacao.getValor());
+                trasacaoModel.setValorStr(CurrencyHelper.getMoney(trasacao.getValor()));
+
+                if (Objects.nonNull(trasacao.getDataReferencia())) {
+                    trasacaoModel.setDataCompetencia(LocalDateTimeHelper.getDateStr(trasacao.getDataReferencia()));
                 }
-                cardExense.setPaymentDate(LocalDateTimeHelper.getDateStr(cashFlow.getDataPagamento()));
-                result.add(cardExense);
+
+                trasacaoModel.setDataPagamento(trasacao.getDataPagamento());
+                trasacaoModel.setDataPagamentoStr(LocalDateTimeHelper.getDateStr(trasacao.getDataPagamento()));
+
+                if (Objects.isNull(valorUltimoPagamento)) {
+                    valorUltimoPagamento = trasacao.getValor();
+                    trasacaoModel.setPerformance(CurrencyHelper.getPercentual(0D));
+                } else {
+                    var valorPagamentoAtual = trasacao.getValor();
+
+                    var isPagamentoAtualPior = valorUltimoPagamento.compareTo(valorPagamentoAtual) < 0;
+                    var isPagamentoNeutro = valorUltimoPagamento.compareTo(valorPagamentoAtual) == 0;
+
+                    var divisor = isPagamentoAtualPior ? valorUltimoPagamento : valorPagamentoAtual;
+                    var dividendo = isPagamentoAtualPior ? valorPagamentoAtual : valorUltimoPagamento;
+                    if (dividendo.compareTo(0D) == 0) dividendo = 1D;
+
+                    trasacaoModel.setPerformance(CurrencyHelper.getPercentual(100 - ((divisor / dividendo) * 100)));
+
+                    if (!isPagamentoNeutro) {
+                        trasacaoModel.setTipoPerformance(isPagamentoAtualPior ? TipoPerformanceEnum.NEGATIVO : TipoPerformanceEnum.POSITIVO);
+                    }
+                }
+
+                result.add(trasacaoModel);
             }
         }
 
-        return result;
+        return result.stream().sorted(Comparator.comparing(TrasacaoModel::getDataPagamento).reversed()).toList();
     }
 
-    public String getFooterValue(Collection<CardDespesaModel> cardsExpenses) {
-        var totalValue = ConvertHelper.toDouble(cardsExpenses.stream().mapToDouble(CardDespesaModel::getValue).sum(), 0D);
-        return CurrencyHelper.convert(totalValue);
+    public String getFooterValue(Collection<TrasacaoModel> cardsExpenses) {
+        var totalValue = ConvertHelper.toDouble(cardsExpenses.stream().mapToDouble(TrasacaoModel::getValor).sum(), 0D);
+        return CurrencyHelper.getMoney(totalValue);
     }
 }
