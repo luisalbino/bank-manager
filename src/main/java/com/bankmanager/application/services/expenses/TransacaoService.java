@@ -22,4 +22,8 @@ public class TransacaoService extends AbstractService<TransacaoEntity, Transacoe
             this.save(cashFlow);
         }
     }
+
+    public TransacaoEntity getOrNew(Long id) {
+        return Objects.nonNull(id) ? this.repository.findById(id).orElse(new TransacaoEntity()) : new TransacaoEntity();
+    }
 }

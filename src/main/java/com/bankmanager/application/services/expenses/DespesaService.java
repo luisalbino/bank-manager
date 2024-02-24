@@ -28,18 +28,6 @@ public class DespesaService extends AbstractService<DespesaEntity, DespesasRepos
         save(expense);
     }
 
-    public void pay(DespesaEntity expense, LocalDate paymentDate, LocalDate competencyDate, Double value) {
-        var cashFlow = new TransacaoEntity();
-        cashFlow.setDescricao("Despesa " + expense.getNome());
-        cashFlow.setDataPagamento(paymentDate.atStartOfDay());
-        cashFlow.setDataReferencia(competencyDate.atStartOfDay());
-        cashFlow.setValor(value);
-        cashFlow.setDespesa(expense);
-        transacaoService.save(cashFlow);
-
-        this.save(expense);
-    }
-
     @Override
     public Collection<DespesaEntity> getAll() {
         return repository.getByUsuario(userService.getLoggedUser()).stream().sorted(Comparator.comparingLong(DespesaEntity::getId)).toList();

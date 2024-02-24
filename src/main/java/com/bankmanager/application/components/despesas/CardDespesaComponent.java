@@ -4,9 +4,8 @@ import com.bankmanager.application.components.buttons.CustomButton;
 import com.bankmanager.application.components.despesas.transacoes.CadastroTransacaoComponent;
 import com.bankmanager.application.entities.despesas.DespesaEntity;
 import com.bankmanager.application.helpers.HTMLHelper;
-import com.bankmanager.application.models.despesas.TrasacaoModel;
+import com.bankmanager.application.models.despesas.transacoes.TrasacaoModel;
 import com.bankmanager.application.services.expenses.CardTrasacaoService;
-import com.bankmanager.application.services.expenses.DespesaService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
@@ -25,10 +24,10 @@ public class CardDespesaComponent extends Div {
     private final CardTrasacaoService cardTrasacaoService;
     private final CadastroTransacaoComponent cadastroTransacaoComponent;
 
-    public CardDespesaComponent(DespesaEntity despesa, DespesaService service, CardTrasacaoService cardTrasacaoService, Runnable afterPagamentoFunc) {
+    public CardDespesaComponent(DespesaEntity despesa, CardTrasacaoService cardTrasacaoService, Runnable afterPagamentoFunc) {
         this.despesa = despesa;
         this.cardTrasacaoService = cardTrasacaoService;
-        this.cadastroTransacaoComponent = new CadastroTransacaoComponent(service, despesa, afterPagamentoFunc);
+        this.cadastroTransacaoComponent = new CadastroTransacaoComponent(cardTrasacaoService, despesa, afterPagamentoFunc);
 
         setWidthFull();
         getStyle().set("padding", "5px");
@@ -62,7 +61,7 @@ public class CardDespesaComponent extends Div {
         var botaoEditar = new CustomButton(VaadinIcon.PENCIL.create());
         botaoEditar.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         botaoEditar.addClickListener(event -> {
-
+            cadastroTransacaoComponent.editar(trasacaoModel);
         });
 
         return botaoEditar;
@@ -84,7 +83,7 @@ public class CardDespesaComponent extends Div {
         var grid = new Grid<TrasacaoModel>();
         grid.addComponentColumn(this::getColunaAcoes).setHeader("Ações").setAutoWidth(true).setFlexGrow(0);
         grid.addColumn(TrasacaoModel::getDataPagamentoStr).setHeader("Data Pagamento");
-        grid.addColumn(TrasacaoModel::getDataCompetencia).setHeader("Data Competência").setVisible(this.despesa.isNotRecorrente());
+        grid.addColumn(TrasacaoModel::getDataCompetenciaStr).setHeader("Data Competência").setVisible(this.despesa.isNotRecorrente());
         grid.addColumn(TrasacaoModel::getValorStr).setHeader("Valor").setKey("valor");
         grid.addComponentColumn(this::getColunaPerformance).setHeader("Performance").setKey("performance");
 
@@ -103,7 +102,7 @@ public class CardDespesaComponent extends Div {
     private Component getButtonPaid() {
         var buttonPaid = new CustomButton("Pagar");
         buttonPaid.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        buttonPaid.addClickListener(event -> cadastroTransacaoComponent.open());
+        buttonPaid.addClickListener(event -> cadastroTransacaoComponent.novo());
 
         var layout = new HorizontalLayout();
         layout.add(buttonPaid);

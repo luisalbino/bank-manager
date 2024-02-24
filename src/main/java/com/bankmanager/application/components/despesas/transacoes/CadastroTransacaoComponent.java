@@ -3,19 +3,17 @@ package com.bankmanager.application.components.despesas.transacoes;
 import com.bankmanager.application.components.dialogs.CustomDialog;
 import com.bankmanager.application.entities.despesas.DespesaEntity;
 import com.bankmanager.application.helpers.BinderHelper;
-import com.bankmanager.application.helpers.ConvertHelper;
 import com.bankmanager.application.helpers.NotificationHelper;
 import com.bankmanager.application.helpers.binder.validators.DoubleNotSmallerOrEqualsThenZeroValidator;
 import com.bankmanager.application.helpers.binder.validators.ObjectNotNullValidador;
-import com.bankmanager.application.services.expenses.DespesaService;
+import com.bankmanager.application.models.despesas.transacoes.CardTrasacaoModel;
+import com.bankmanager.application.models.despesas.transacoes.TrasacaoModel;
+import com.bankmanager.application.services.expenses.CardTrasacaoService;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.data.binder.Binder;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.Locale;
@@ -23,9 +21,9 @@ import java.util.Locale;
 public class CadastroTransacaoComponent extends CustomDialog {
 
     private final DespesaEntity despesa;
-    private final Binder<ValueModel> binder = new Binder<>();
+    private final Binder<CardTrasacaoModel> binder = new Binder<>();
 
-    public CadastroTransacaoComponent(DespesaService despesaService, DespesaEntity despesa, Runnable afterPay) {
+    public CadastroTransacaoComponent(CardTrasacaoService cardTrasacaoService, DespesaEntity despesa, Runnable afterPay) {
         super("Pagar despesa", "Confirmar");
 
         this.despesa = despesa;
@@ -34,7 +32,7 @@ public class CadastroTransacaoComponent extends CustomDialog {
         campoDataPagamento.setLocale(new Locale("pt", "BR"));
         binder.forField(campoDataPagamento)
                 .withValidator(new ObjectNotNullValidador())
-                .bind(ValueModel::getPaymentDate, ValueModel::setPaymentDate);
+                .bind(CardTrasacaoModel::getDataPagamento, CardTrasacaoModel::setDataPagamento);
 
         DatePicker.DatePickerI18n i18n = new DatePicker.DatePickerI18n();
         i18n.setDateFormat(despesa.isAnual() ? "yyyy" : "MM/yyyy");
@@ -46,13 +44,13 @@ public class CadastroTransacaoComponent extends CustomDialog {
         campoDataCompetencia.setLocale(new Locale("pt", "BR"));
         binder.forField(campoDataCompetencia)
                 .withValidator(new ObjectNotNullValidador())
-                .bind(ValueModel::getCompetencyDate, ValueModel::setCompetencyDate);
+                .bind(CardTrasacaoModel::getDataReferencia, CardTrasacaoModel::setDataReferencia);
 
         var campoValor = new NumberField("Valor pago");
         campoValor.setPrefixComponent(VaadinIcon.DOLLAR.create());
         binder.forField(campoValor)
                 .withValidator(new DoubleNotSmallerOrEqualsThenZeroValidator())
-                .bind(ValueModel::getValue, ValueModel::setValue);
+                .bind(CardTrasacaoModel::getValor, CardTrasacaoModel::setValor);
 
         var layout = new HorizontalLayout();
         layout.setMargin(true);
@@ -63,7 +61,7 @@ public class CadastroTransacaoComponent extends CustomDialog {
 
         addConfirmAction(() -> {
             if (binder.isValid()) {
-                despesaService.pay(despesa, binder.getBean().getPaymentDate(), binder.getBean().getCompetencyDate(), binder.getBean().getValue());
+                cardTrasacaoService.pagarOrEditar(despesa, binder.getBean());
                 afterPay.run();
                 close();
                 NotificationHelper.success("Despesa paga com sucesso!");
@@ -71,18 +69,13 @@ public class CadastroTransacaoComponent extends CustomDialog {
         });
     }
 
-    @Override
-    public void open() {
-        BinderHelper.setAndClearFields(new ValueModel(ConvertHelper.toDouble(despesa.getValor(), 0D),  LocalDate.now(), LocalDate.now()), binder);
+    public void novo() {
+        BinderHelper.setAndClearFields(new CardTrasacaoModel(despesa), binder);
         super.open();
     }
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    public static class ValueModel {
-        private Double value;
-        private LocalDate paymentDate;
-        private LocalDate competencyDate;
+    public void editar(TrasacaoModel trasacaoModel) {
+        BinderHelper.setAndClearFields(new CardTrasacaoModel(trasacaoModel), binder);
+        super.open();
     }
 }

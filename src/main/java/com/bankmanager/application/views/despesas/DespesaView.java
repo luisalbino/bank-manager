@@ -23,8 +23,8 @@ public class DespesaView extends VerticalLayout {
     private final CadastroDespesaComponent cadastroDespesaComponent;
     private final ConsultaDespesaComponent consultaDespesaComponent;
 
-    public DespesaView(DespesaService despesaService, TransacaoService transacaoService, CardTrasacaoService cardTrasacaoService) {
-        consultaDespesaComponent = new ConsultaDespesaComponent(despesaService, transacaoService, cardTrasacaoService);
+    public DespesaView(DespesaService despesaService, CardTrasacaoService cardTrasacaoService) {
+        consultaDespesaComponent = new ConsultaDespesaComponent(despesaService, cardTrasacaoService);
         cadastroDespesaComponent = new CadastroDespesaComponent(despesaService, consultaDespesaComponent::carregarCards);
         buildUI();
     }

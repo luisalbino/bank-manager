@@ -1,4 +1,4 @@
-package com.bankmanager.application.models.despesas;
+package com.bankmanager.application.models.despesas.transacoes;
 
 import com.bankmanager.application.enums.despesas.transacoes.TipoPerformanceEnum;
 import com.vaadin.flow.component.icon.Icon;
@@ -21,10 +21,11 @@ public class TrasacaoModel {
     private String valorStr;
     private String performance;
 
-    private String dataCompetencia;
     private String dataPagamentoStr;
+    private String dataCompetenciaStr;
 
     private LocalDateTime dataPagamento;
+    private LocalDateTime dataReferencia;
 
     @Builder.Default
     private TipoPerformanceEnum tipoPerformance = TipoPerformanceEnum.NEUTRO;
