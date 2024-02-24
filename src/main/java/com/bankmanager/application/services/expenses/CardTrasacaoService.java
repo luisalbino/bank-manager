@@ -52,7 +52,6 @@ public class CardTrasacaoService {
                 trasacaoModel.setDataPagamentoStr(LocalDateTimeHelper.formatDDMMYYYY(trasacao.getDataPagamento()));
 
                 if (Objects.isNull(valorUltimoPagamento)) {
-                    valorUltimoPagamento = trasacao.getValor();
                     trasacaoModel.setPerformance(CurrencyHelper.getPercentual(0D));
                 } else {
                     var valorPagamentoAtual = trasacao.getValor();
@@ -70,6 +69,8 @@ public class CardTrasacaoService {
                         trasacaoModel.setTipoPerformance(isPagamentoAtualPior ? TipoPerformanceEnum.NEGATIVO : TipoPerformanceEnum.POSITIVO);
                     }
                 }
+
+                valorUltimoPagamento = trasacao.getValor();
 
                 result.add(trasacaoModel);
             }
