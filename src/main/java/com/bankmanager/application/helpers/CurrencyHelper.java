@@ -7,7 +7,7 @@ import java.util.Locale;
 
 public class CurrencyHelper {
 
-    private final static NumberFormat NF = NumberFormat.getCurrencyInstance();
+    private final static NumberFormat NF = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
 
     public static String getMoney(Double value) {
         return NF.format(value);
